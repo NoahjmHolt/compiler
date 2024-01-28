@@ -1,0 +1,33 @@
+Number Pseudo
+
+Noah Holt
+
+Build from the letter/string example
+// Assume existence of GetNextChar() or GNC(), which retrieves and removes the next character in the input stream
+// Assume ch is a character variable which, at this point, contains the last retrieved character from a GNC() call Differs from in-class GNC we used!
+// Assume token is a string variable which will be built to contain the next token string 
+String GetNextToken() {
+token = "";   //empty the token to start
+if ( isDigit(ch) )  //isDigit must be built to return TRUE for 0-9 and must start with digit
+  {
+    token = ch;   // Start the token
+    ch = GNC();  // Get next character
+    pointCount = 0; // can only be one
+    eCount = 0; // can only be one
+    while (ch == “.” || isDigit(ch) || ch == “E”) {
+      if (char == “.”) {   // check if first point
+           if (pointCount = 1) {  // not first
+               return 52;
+           else 
+                pointCount = 1
+       if (char == “E”) {   // check if first E
+           if (eCount = 1) {  // not first
+               return 99;
+           else 
+                eCount = 1;
+       token = token + ch;  //Append ch
+       ch = GNC();
+      }
+   return token;
+  }
+}

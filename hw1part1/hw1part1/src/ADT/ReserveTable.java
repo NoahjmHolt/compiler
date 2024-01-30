@@ -54,9 +54,19 @@ public class ReserveTable {
 
         try {
             FileWriter myWriter = new FileWriter(filename);
-            myWriter.write("Files in Java might be tricky, but it is fun enough!");
+
+            myWriter.write(String.format("| %-6s | %-10s | %5s |%n", "Index", "Name", "Code"));
+
+            //print per element
+            int listSize = stringList.size();
+            for (int i = 0; i < listSize; i++) {
+                myWriter.write(String.format("| %-6d | %-10s | %5d |%n", i, stringList.get(i), codeList.get(i)));
+            }
+
             myWriter.close();
+
             System.out.println("Successfully wrote to the file.");
+
         } catch (IOException e) {
             System.out.println("An error occurred.");
         }

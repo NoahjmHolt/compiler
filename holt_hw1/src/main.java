@@ -37,6 +37,8 @@ public class main {
         System.out.println();
         System.out.println("Testing the Symbol Table\n");
 
+
+
 //Add stuff
         symbols.AddSymbol("TestInt", 'V', 27);
         symbols.AddSymbol("TestDouble", 'V', 42.25);
@@ -56,6 +58,7 @@ public class main {
         System.out.println("BadVal search returned "+index+'\n');
         System.out.println("Printing SymbolTable to file "+ args[1]);
         symbols.PrintSymbolTable(args[1]);
+
 
     } //public main
 

@@ -6,6 +6,7 @@ import java.io.IOException;
 public class QuadTable {
 
     int tableSize;
+    int[][] quadTable;
     int nextUp;
 
     /*
@@ -13,10 +14,9 @@ public class QuadTable {
      */
     public QuadTable(int maxSize){
         tableSize = maxSize;
+        quadTable = new int[tableSize][4];
         nextUp = 0;
     } // general method
-
-    int[][] quadTable = new int[tableSize][4];
 
     /*
         returns the index of next empty slot in the table

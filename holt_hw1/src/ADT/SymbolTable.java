@@ -6,11 +6,12 @@ import java.io.IOException;
 public class SymbolTable {
 
     int tableSize;
-    int[] symbolTable;
+    String[][] symbolTable;
 
     public SymbolTable(int maxSize){
 
         tableSize = maxSize;
+        symbolTable = new String[tableSize][4];
 
     } // General
 

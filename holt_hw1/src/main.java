@@ -1,19 +1,22 @@
-//package FA22HW2A;
 import ADT.QuadTable;
 import ADT.SymbolTable;
 /**
- * @author nholt Spring 2024
+ * @author Noah Holt
+ * nholt Spring 2024
+ * Homework 1, part 2
+ * Quad table and Symbol table
  */
 public class main {
     public static void main(String[] args) {
-// Create the tables
+
+        // Create the tables
         SymbolTable symbols = new SymbolTable(25);
         QuadTable quads = new QuadTable(50);
         int index;
         int[] quadRow = new int[4];
 
-//Required student name header
-        System.out.println("StudentFirst StudentLast CS4100 Homework 2, Spring 2024");
+        //Required student name header
+        System.out.println("Noah Holt CS4100 Homework 2, Spring 2024");
         System.out.println();
         System.out.println("Testing the Quad Table\n");
         System.out.println("At the start, NextQuad is: "+ quads.NextQuad());

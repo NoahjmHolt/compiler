@@ -5,27 +5,34 @@ import java.io.IOException;
 
 public class SymbolTable {
 
+    int tableSize;
+    int[] symbolTable;
+
     public SymbolTable(int maxSize){
 
+        tableSize = maxSize;
 
     } // General
 
     /*
+        Triple Overloaded methods
 
      */
     public int AddSymbol(String symbol, char usage, int value){
         return 0;
     }
     public int AddSymbol(String symbol, char usage, double value){
+
         return 0;
     }
     public int AddSymbol(String symbol, char usage, String value){
+
         return 0;
     }
     // end all Add symbols
 
     /*
-
+        index of symbol
      */
     public int LookupSymbol(String symbol){
 
@@ -34,7 +41,7 @@ public class SymbolTable {
     } // Lookup Symbol
 
     /*
-
+        Symbol at index
      */
     public String GetSymbol(int index){
 
@@ -43,7 +50,7 @@ public class SymbolTable {
     } // Get Symbol
 
     /*
-
+        Usage at index
      */
     public char GetUsage(int index){
 
@@ -52,7 +59,7 @@ public class SymbolTable {
     } // Get Usage
 
     /*
-
+        Type at index
      */
     public char GetDataType(int index){
 
@@ -61,7 +68,7 @@ public class SymbolTable {
     } // Get Data Type
 
     /*
-
+        String at index
      */
     public String GetString(int index){
 
@@ -70,7 +77,7 @@ public class SymbolTable {
     } // Get String
 
     /*
-
+        int at index
      */
     public int GetInteger(int index){
 
@@ -79,7 +86,7 @@ public class SymbolTable {
     } // get int
 
     /*
-
+        float at index
      */
     public double GetFloat(int index){
 
@@ -88,7 +95,7 @@ public class SymbolTable {
     } // get float
 
     /*
-
+        Change values if needed
      */
     public void UpdateSymbol(int index, char usage, int value){
 

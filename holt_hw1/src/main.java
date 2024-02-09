@@ -15,6 +15,9 @@ public class main {
         int index;
         int[] quadRow = new int[4];
 
+        /*
+            Quad Table testing
+         */
         //Required student name header
         System.out.println("Noah Holt CS4100 Homework 2, Spring 2024");
         System.out.println();
@@ -35,11 +38,12 @@ public class main {
         System.out.println("Printing QuadTable to file "+ args[0]);
         quads.PrintQuadTable(args[0]);
         System.out.println();
+
+        /*
+            Symbol Table testing
+         */
         System.out.println("Testing the Symbol Table\n");
-
-
-
-//Add stuff
+        //Add stuff
         symbols.AddSymbol("TestInt", 'V', 27);
         symbols.AddSymbol("TestDouble", 'V', 42.25);
         symbols.AddSymbol("TestString", 'V', "Nevermind the furthermore...");
@@ -47,7 +51,7 @@ public class main {
         symbols.AddSymbol("3.1415",'C', 3.1415);
         symbols.AddSymbol("Please Enter A Value",'C', "Please Enter A Value");
 
-//Look for stuff
+        //Look for stuff
         index = symbols.LookupSymbol("testint");
         System.out.println("testint is located at "+index);
         index = symbols.LookupSymbol("3.1415");

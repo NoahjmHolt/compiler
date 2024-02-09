@@ -1,4 +1,7 @@
 package ADT;
+import java.lang.String;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class QuadTable {
 
@@ -63,7 +66,23 @@ public class QuadTable {
      */
     public void PrintQuadTable(String fileName){
 
+        try {
+            FileWriter myWriter = new FileWriter(fileName);
 
+            myWriter.write(String.format("| %-6s | %-8s | %5s | %5s | %5s |%n", "Index", "Opcode", "Op 1", "Op 2", "Op 3"));
+
+            //print per element
+            for (int i = 0; i < nextUp; i++) {
+                myWriter.write(String.format("| %-6d | %-8d | %5d | %5d | %5d |%n", i, quadTable[i][0], quadTable[i][1], quadTable[i][2], quadTable[i][3]));
+            }
+
+            myWriter.close();
+
+            System.out.println("Successfully wrote to the file.");
+
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+        }
 
     } // Print Quad
 

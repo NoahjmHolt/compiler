@@ -1,4 +1,7 @@
 package ADT;
+import java.lang.String;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class SymbolTable {
 

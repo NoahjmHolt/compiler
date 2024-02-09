@@ -7,28 +7,83 @@ public class SymbolTable {
 
     int tableSize;
     String[][] symbolTable;
+    int nextUp;
 
     public SymbolTable(int maxSize){
 
         tableSize = maxSize;
         symbolTable = new String[tableSize][4];
+        nextUp = 0;
 
     } // General
 
     /*
         Triple Overloaded methods
-
+        Storing into the table
+        Table goes: Name, Use, Type, Value
      */
     public int AddSymbol(String symbol, char usage, int value){
-        return 0;
+
+        // first not over max
+        if (nextUp == tableSize){ return -1;}
+
+        // second check if in table
+        int index = LookupSymbol(symbol);
+        if (index < nextUp && index > -1){ return index; }
+
+        //not equal add to table and
+        symbolTable[nextUp][0] = symbol;
+        symbolTable[nextUp][1] = String.valueOf(usage);
+        symbolTable[nextUp][2] = String.valueOf('I');
+        symbolTable[nextUp][3] = Integer.toString(value);
+
+        // update next up
+        nextUp = nextUp + 1;
+
+        return (nextUp - 1);
+
     }
     public int AddSymbol(String symbol, char usage, double value){
 
-        return 0;
+        // first not over max
+        if (nextUp == tableSize){ return -1;}
+
+        // second check if in table
+        int index = LookupSymbol(symbol);
+        if (index < nextUp && index > -1){ return index; }
+
+        //not equal add to table and
+        symbolTable[nextUp][0] = symbol;
+        symbolTable[nextUp][1] = String.valueOf(usage);
+        symbolTable[nextUp][2] = String.valueOf('F');
+        symbolTable[nextUp][3] = Double.toString(value);
+
+        // update next up
+        nextUp = nextUp + 1;
+
+        return (nextUp - 1);
+
     }
     public int AddSymbol(String symbol, char usage, String value){
 
-        return 0;
+        // first not over max
+        if (nextUp == tableSize){ return -1;}
+
+        // second check if in table
+        int index = LookupSymbol(symbol);
+        if (index < nextUp && index > -1){ return index; }
+
+        //not equal add to table and
+        symbolTable[nextUp][0] = symbol;
+        symbolTable[nextUp][1] = String.valueOf(usage);
+        symbolTable[nextUp][2] = String.valueOf('S');
+        symbolTable[nextUp][3] = value;
+
+        // update next up
+        nextUp = nextUp + 1;
+
+        return (nextUp - 1);
+
     }
     // end all Add symbols
 
@@ -37,7 +92,15 @@ public class SymbolTable {
      */
     public int LookupSymbol(String symbol){
 
-        return 0;
+        for(int i = 0; i < nextUp; i++) {
+            if (symbol.compareToIgnoreCase(symbolTable[i][0]) == 0) {
+                // exit and return i if equal
+                return i;
+            }
+        }
+
+        //not found if here
+        return -1;
 
     } // Lookup Symbol
 

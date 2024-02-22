@@ -58,7 +58,19 @@ import ADT.*;
 
 /**
  *
- * @author abrouill
+ * @author nholt
+ *
+ * This part of the project has 3 parts
+ *
+ * 1) Create Quad table and fill in with needed ops (see provided func)
+ *
+ * 2) Populate symbol table as needed
+ *
+ * 3) Run/interpret with provided algorithm
+ *      prints answers
+ *      create reserve table
+ *      TRACE displays mnemonics
+ *
  */
 public class main {
 

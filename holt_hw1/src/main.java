@@ -1,69 +1,91 @@
-import ADT.QuadTable;
-import ADT.SymbolTable;
+/*
+HERE is code that goes in the Interpreter class
+so that all the trace outputs match the intended result 
+
+    private String makeTraceString(int pc, int opcode,int op1,int op2,int op3 ){
+        String result = "";
+        result = "PC = "+String.format("%04d", pc)+": "+(optable.LookupCode(opcode)+"     ").substring(0,6)+String.format("%02d",op1)+
+                                ", "+String.format("%02d",op2)+", "+String.format("%02d",op3);
+        return result;
+    }
+
+HERE is a free opcode table initialization for a created ReserveTable
+  private void initReserve(ReserveTable optable){
+      optable.Add("STOP", 0);
+      optable.Add("DIV", 1);
+      optable.Add("MUL", 2);
+      optable.Add("SUB", 3);
+      optable.Add("ADD", 4);
+      optable.Add("MOV", 5);
+      optable.Add("PRINT", 6);
+      optable.Add("READ", 7);
+      optable.Add("JMP", 8);
+      optable.Add("JZ", 9);
+      optable.Add("JP", 10);
+      optable.Add("JN", 11);
+      optable.Add("JNZ", 12);
+      optable.Add("JNP", 13);
+      optable.Add("JNN", 14);
+      optable.Add("JINDR", 15);
+ }
+
+HERE IS THE FACTORIAL INITIALIZATION STUFF...
+    public boolean initializeFactorialTest(SymbolTable stable, QuadTable qtable) {
+        InitSTforFactorial(stable);
+        InitQTforFactorial(qtable);
+        return true;
+    }
+
+//factorial Symbols  
+    public static void InitSTF(SymbolTable st) {
+        st.AddSymbol("n", 'V', 10);
+        st.AddSymbol("i", 'V', 0);
+        //... put the rest of the Symbol table entries below...    
+    }
+
+//factorial Quads 
+    public void InitQTF(QuadTable qt) {
+        qt.AddQuad(5, 3, 0, 2); //MOV
+        qt.AddQuad(5, 3, 0, 1); //MOV
+        qt.AddQuad(3, 1, 0, 4); //SUB
+        //... put the rest of the Quad table entries below...    
+
+    }
+
+*/
+
+import ADT.*;
+
 /**
- * @author Noah Holt
- * nholt Spring 2024
- * Homework 1, part 2
- * Quad table and Symbol table
+ *
+ * @author abrouill
  */
 public class main {
+
     public static void main(String[] args) {
+        // Expects 6 command-line parameters for filenames,
+        //     see arg[0] through arg[5] below
+        Interpreter interp = new Interpreter();
+        SymbolTable st;
+        QuadTable qt;
 
-        // Create the tables
-        SymbolTable symbols = new SymbolTable(25);
-        QuadTable quads = new QuadTable(50);
-        int index;
-        int[] quadRow = new int[4];
+        // interpretation FACTORIAL
+        st = new SymbolTable(20);     //Create an empty SymbolTable
+        qt = new QuadTable(20);       //Create an empty QuadTable
+        System.out.println("This program expects command-line parameters for filenames in this order:");
+        System.out.println("traceFactorial SymbolFactorial QuadFactorial traceSum SymbolSum QuadSum");
+        interp.initializeFactorialTest(st,qt);  //Set up for FACTORIAL
+        interp.InterpretQuads(qt, st, true, args[0]);
+        st.PrintSymbolTable(args[1]);
+        qt.PrintQuadTable(args[2]);
 
-        /*
-            Quad Table testing
-         */
-        //Required student name header
-        System.out.println("Noah Holt CS4100 Homework 2, Spring 2024");
-        System.out.println();
-        System.out.println("Testing the Quad Table\n");
-        System.out.println("At the start, NextQuad is: "+ quads.NextQuad());
-        quads.AddQuad(4,3,2,1);
-        System.out.println("After one add, NextQuad is: "+ quads.NextQuad());
-        quads.AddQuad(1,2,3,4);
-        quads.AddQuad(2,2,2,2);
-        quads.AddQuad(0,0,0,0);
-        quads.AddQuad(1,3,5,9);
-        quadRow = quads.GetQuad(4);
-        System.out.println("Quad row at index 4 is: "+ quadRow[0]+", "+ quadRow[1]+", "+quadRow[2]+", "+quadRow[3]);
-        quads.UpdateJump(4,17);
-        quadRow = quads.GetQuad(4);
-        System.out.println("Quad row at index 4 is: "+ quadRow[0]+", "+ quadRow[1]+", "+quadRow[2]+", "+quadRow[3]);
-        System.out.println("Finally NextQuad is: "+ quads.NextQuad());
-        System.out.println("Printing QuadTable to file "+ args[0]);
-        quads.PrintQuadTable(args[0]);
-        System.out.println();
+        // interpretation SUMMATION
+        st = new SymbolTable(20);     //Create an empty SymbolTable
+        qt = new QuadTable(20);       //Create an empty QuadTable
+        interp.initializeSummationTest(st,qt);  //Set up for SUMMATION
+        interp.InterpretQuads(qt, st, true, args[3]);
+        st.PrintSymbolTable(args[4]);
+        qt.PrintQuadTable(args[5]);
+    }
 
-        /*
-            Symbol Table testing
-         */
-        System.out.println("Testing the Symbol Table\n");
-        //Add stuff
-        symbols.AddSymbol("TestInt", 'V', 27);
-        symbols.AddSymbol("TestDouble", 'V', 42.25);
-        symbols.AddSymbol("TestString", 'V', "Nevermind the furthermore...");
-        symbols.AddSymbol("135",'C', 135);
-        symbols.AddSymbol("3.1415",'C', 3.1415);
-        symbols.AddSymbol("Please Enter A Value",'C', "Please Enter A Value");
-
-        //Look for stuff
-        index = symbols.LookupSymbol("testint");
-        System.out.println("testint is located at "+index);
-        index = symbols.LookupSymbol("3.1415");
-        System.out.println("PI is located at "+index);
-        System.out.println(" the KIND for PI is " + symbols.GetUsage(index));
-        System.out.println("The KIND for slot 5 is "+symbols.GetUsage(5)+", data type is "+ symbols.GetDataType(5)+" and the value: "+symbols.GetString(5));
-        index = symbols.LookupSymbol("BadVal");
-        System.out.println("BadVal search returned "+index+'\n');
-        System.out.println("Printing SymbolTable to file "+ args[1]);
-        symbols.PrintSymbolTable(args[1]);
-
-
-    } //public main
-
-} //main class
+}

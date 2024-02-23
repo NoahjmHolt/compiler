@@ -17,23 +17,28 @@ package ADT;
 
 public class Interpreter {
 
+    int maxSize;
     ReserveTable operation;
 
     // factorial
     QuadTable quad4Fact;
-    SymbolTable symb4Fact;
-
-    // summation
-    QuadTable quad4Summ;
-    SymbolTable symb4Summ;
+    QuadTable quad4Sum;
+    SymbolTable symb4All;
 
     // Initializes what is needed
     public Interpreter(){
 
+        maxSize = 35;
+
+        operation = new ReserveTable(maxSize);
         initReserve(operation);
 
-        initializeFactorialTest(symb4Fact, quad4Fact);
-        initializeSummationTest(symb4Summ, quad4Summ);
+        symb4All = new SymbolTable(maxSize);
+        quad4Fact = new QuadTable(maxSize);
+        quad4Sum = new QuadTable(maxSize);
+
+        initializeFactorialTest(symb4All, quad4Fact);
+        initializeSummationTest(symb4All, quad4Sum);
 
     } // end method
 
@@ -64,15 +69,122 @@ public class Interpreter {
     //
     public void InterpretQuads(QuadTable quadTable, SymbolTable symbtable, boolean TraceOn, String filename){
 
-        if (TraceOn){ //Trace the program by printing op mnemonics
+        int programCount = 0;
 
-            System.out.println("on");
+        while (programCount < maxSize){
 
-        } else {
+            int[] currentQuad = new int[4];
+            currentQuad = quadTable.GetQuad(programCount);
 
-            System.out.println("off");
+            if (!operation.LookupCode(currentQuad[0]).isEmpty()){
 
-        }
+                char keep = symbtable.GetUsage(currentQuad[3])
+
+                switch (currentQuad[0]){
+
+                    case 0: // STOP
+                        System.out.println("Execution terminated by program STOP");
+                        programCount = maxSize;
+                        break;
+
+                    case 1: // DIV
+                        int upper = symbtable.GetInteger(currentQuad[1]);
+                        int lower = symbtable.GetInteger(currentQuad[2]);
+
+                        int division = upper / lower; // putting
+
+                        symbtable.UpdateSymbol(currentQuad[3], keep, division);
+
+                        programCount += 1;
+
+                        break;
+
+                    case 2: // MUL
+
+                        int mul1 = symbtable.GetInteger(currentQuad[1]);
+                        int mul2 = symbtable.GetInteger(currentQuad[2]);
+
+                        int multi = mul2 * mul1; // putting in
+
+                        symbtable.UpdateSymbol(currentQuad[3], keep, multi);
+
+                        break;
+
+                    case 3: // SUB
+
+                        int big = symbtable.GetInteger(currentQuad[1]);
+                        int lil = symbtable.GetInteger(currentQuad[2]);
+
+                        int subtract = big - lil; // putting in
+
+                        symbtable.UpdateSymbol(currentQuad[3], keep, subtract);
+
+                        break;
+
+                    case 4: // ADD
+
+                        int first = symbtable.GetInteger(currentQuad[1]);
+                        int second = symbtable.GetInteger(currentQuad[2]);
+
+                        int addition = first + second; // putting in
+
+                        symbtable.UpdateSymbol(currentQuad[3], keep, addition);
+
+                        break;
+
+                    case 5: //MOV
+
+                        break;
+
+                    case 6: // PRINT
+
+                        break;
+
+                    case 7: // READ
+
+                        break;
+
+                    case 8: // JMP
+
+                        break;
+
+                    case 9: // JZ
+
+                        break;
+
+                    case 10: // JP
+
+                        break;
+
+                    case 11: // JN
+
+                        break;
+
+                    case 12: // JNZ
+
+                        break;
+
+                    case 13: // JNP
+
+                        break;
+
+                    case 14: // JNN
+
+                        break;
+
+                    case 15: // JINDR
+
+                        break;
+
+                    default: // something went wrong
+                        System.out.println("Opcode Not Found");
+                        programCount = maxSize;
+
+                } // end switch
+
+            } // end if
+
+        } // end while
 
     } // end Interpret Quads
 
@@ -110,13 +222,13 @@ public class Interpreter {
 
     //factorial Symbols
     public static void initSTforFactorial(SymbolTable st) {
-        st.AddSymbol("n", 'V', 10);
-        st.AddSymbol("i", 'V', 0);
+        st.AddSymbol("n", 'V', 10); //1
+        st.AddSymbol("i", 'V', 0); //2
 
         //... put the rest of the Symbol table entries below...
-        st.AddSymbol("product", 'v', 0);
-        st.AddSymbol("1", 'c', 1);
-        st.AddSymbol("$temp", 'v', 0);
+        st.AddSymbol("product", 'v', 0); //3
+        st.AddSymbol("1", 'c', 1); // 4
+        st.AddSymbol("$temp", 'v', 0); // 5
 
     } // end fact symbol
 
@@ -129,29 +241,38 @@ public class Interpreter {
         //... put the rest of the Quad table entries below...
         qt.AddQuad(10, 4, 0, 7); //JP exit loop
         qt.AddQuad(2, 2, 1, 2); //MUL product = product * i
+        qt.AddQuad(4, 1, 3, 1); //ADD
         qt.AddQuad(8, 0, 0, 2); //JMP loop back through
         qt.AddQuad(6, 2, 0, 0); //PRINT
+        qt.AddQuad(0, 0, 0, 0); //STOP
 
 
     } // end fact quad
 
     public static void initSTforSummation(SymbolTable st) {
-        st.AddSymbol("n", 'V', 10);
-        st.AddSymbol("i", 'V', 0);
+        //st.AddSymbol("n", 'V', 10); already on symbol table (see quad section) 1
+        //st.AddSymbol("i", 'V', 0);  already on symbol table (see quad section) 2
 
         //... put the rest of the Symbol table entries below...
-
+        st.AddSymbol("sum", 'v', 0);  // 6
+        st.AddSymbol("1", 'c', 1);
+        st.AddSymbol("$temp", 'v', 0);
 
     } // end sum symbol
 
     //factorial Quads
     public void initQTforSummation(QuadTable qt) {
-        qt.AddQuad(5, 3, 0, 2); //MOV prod = 1
+        qt.AddQuad(5, 5, 0, 2); //MOV sum = 1
         qt.AddQuad(5, 3, 0, 1); //MOV i = 1
         qt.AddQuad(3, 1, 0, 4); //SUB Compare $temp = i-n (in loop)
 
         //... put the rest of the Quad table entries below...
-
+        qt.AddQuad(10, 4, 0, 7); //JP exit loop
+        qt.AddQuad(4, 2, 1, 2); //ADD product = product * i
+        qt.AddQuad(4, 1, 3, 1); //ADD
+        qt.AddQuad(8, 0, 0, 2); //JMP loop back through
+        qt.AddQuad(6, 2, 0, 0); //PRINT
+        qt.AddQuad(0, 0, 0, 0); //STOP
 
     } // end sum quad
 

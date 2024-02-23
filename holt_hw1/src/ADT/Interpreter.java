@@ -76,9 +76,13 @@ public class Interpreter {
             int[] currentQuad = new int[4];
             currentQuad = quadTable.GetQuad(programCount);
 
+            if (TraceOn){
+                makeTraceString(programCount, currentQuad[0], currentQuad[1], currentQuad[2], currentQuad[3]);
+            }
+
             if (!operation.LookupCode(currentQuad[0]).isEmpty()){
 
-                char keep = symbtable.GetUsage(currentQuad[3])
+                char keep = symbtable.GetUsage(currentQuad[3]);
 
                 switch (currentQuad[0]){
 
@@ -108,6 +112,8 @@ public class Interpreter {
 
                         symbtable.UpdateSymbol(currentQuad[3], keep, multi);
 
+                        programCount += 1;
+
                         break;
 
                     case 3: // SUB
@@ -118,6 +124,8 @@ public class Interpreter {
                         int subtract = big - lil; // putting in
 
                         symbtable.UpdateSymbol(currentQuad[3], keep, subtract);
+
+                        programCount += 1;
 
                         break;
 
@@ -130,13 +138,22 @@ public class Interpreter {
 
                         symbtable.UpdateSymbol(currentQuad[3], keep, addition);
 
+                        programCount += 1;
+
                         break;
 
                     case 5: //MOV
 
+                        int moveSomewhere = symbtable.GetInteger(currentQuad[1]);
+                        symbtable.UpdateSymbol(currentQuad[3], keep, moveSomewhere);
+
                         break;
 
                     case 6: // PRINT
+
+                        int outcome = symbtable.GetInteger(currentQuad[3]);
+
+                        System.out.println("Outcome = " + outcome);
 
                         break;
 
@@ -146,33 +163,70 @@ public class Interpreter {
 
                     case 8: // JMP
 
+                        programCount = currentQuad[3];
+
                         break;
 
                     case 9: // JZ
+
+                        if (symbtable.GetInteger(currentQuad[1]) == 0){
+                            programCount = currentQuad[3];
+                        } else {
+                            programCount += 1;
+                        }
 
                         break;
 
                     case 10: // JP
 
+                        programCount = currentQuad[3];
+
                         break;
 
                     case 11: // JN
+
+                        if (symbtable.GetInteger(currentQuad[1]) != 0){
+                            programCount = currentQuad[3];
+                        } else {
+                            programCount += 1;
+                        }
 
                         break;
 
                     case 12: // JNZ
 
-                        break;
-
-                    case 13: // JNP
-
-                        break;
-
-                    case 14: // JNN
+                        if (symbtable.GetInteger(currentQuad[1]) != 0){
+                            programCount = currentQuad[3];
+                        } else {
+                            programCount += 1;
+                        }
 
                         break;
 
-                    case 15: // JINDR
+                    case 13: // JNP not positive?
+
+                        if (symbtable.GetInteger(currentQuad[1]) <= 0){
+                            programCount = currentQuad[3];
+                        } else {
+                            programCount += 1;
+                        }
+
+                        break;
+
+                    case 14: // JNN not neg?
+
+                        if (symbtable.GetInteger(currentQuad[1]) >= 0){
+                            programCount = currentQuad[3];
+                        } else {
+                            programCount += 1;
+                        }
+
+                        break;
+
+                    case 15: // JINDR ???
+
+                        // no idea so ...
+                        programCount += 1;
 
                         break;
 

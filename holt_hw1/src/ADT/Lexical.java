@@ -218,8 +218,9 @@ public class Lexical {
         mnemonics.Add("ARRAY", 25);
 
         mnemonics.Add("IDENT", 33);
-        mnemonics.Add("NUMBR", 44);
-        mnemonics.Add("STRNG", 55);
+        mnemonics.Add("INTGR", 51);
+        mnemonics.Add("FLOAT", 52);
+        mnemonics.Add("STRNG", 53);
         mnemonics.Add("OTHER", 66);
 
         //1 and 2-char
@@ -410,7 +411,8 @@ public class Lexical {
                 //saveSymbols.AddSymbol(result.lexeme, 'v', )
             } // if not on symbol table
 
-        } // if not a reserve word
+            // if not a reserve word
+        }
             
         return result;
     }
@@ -424,6 +426,27 @@ public class Lexical {
         result.mnemonic = "NUMBR";
         currCh = GetNextChar();
 
+        int periodCounter = 0;
+
+        while (periodCounter < 2 && (isDigit(currCh))) {
+            result.lexeme = result.lexeme + currCh; //extend lexeme
+            if (currCh == '.'){
+                periodCounter += 1;
+            }
+            currCh = GetNextChar();
+        }
+
+        if (periodCounter == 0){
+            result.mnemonic = "INTGR";
+            result.code = 51;
+        } else if (periodCounter == 1){
+            result.mnemonic = "FLOAT";
+            result.code = 52;
+        } else {
+            //error to many periods
+            
+        }
+
         return result;
     }
 
@@ -434,6 +457,11 @@ public class Lexical {
         result.mnemonic = "STRNG";
         currCh = GetNextChar();
 
+        while (isLetter(currCh)||(isDigit(currCh))) {
+            result.lexeme = result.lexeme + currCh; //extend lexeme
+            currCh = GetNextChar();
+        }
+
         return result;
     }
 
@@ -443,6 +471,11 @@ public class Lexical {
         result.lexeme = "" + currCh; //have the first char
         result.mnemonic = "OTHER";
         currCh = GetNextChar();
+
+        while (!(isLetter(currCh))||!(isDigit(currCh))) {
+            result.lexeme = result.lexeme + currCh; //extend lexeme
+            currCh = GetNextChar();
+        }
 
         return result;
     }

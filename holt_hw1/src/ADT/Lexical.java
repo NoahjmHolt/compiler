@@ -4,6 +4,7 @@ PHASE 2 of the compiler project for CS4100/5100.
 
 FALL 2023 version
 STUDENTS ARE TO PROVIDE THE FOLLOWING CODE FOR THE COMPLETION OF THE ASSIGNMENT:
+
 1) Initialize the 2 reserve tables, which are fields in the Lexical
 class, named reserveWords and mnemonics. Create the following functions.
 
@@ -15,8 +16,8 @@ initMnemonics(mnemonics);
 
 One-line examples are provided below
 
-2) getIdentifier, getNumber, getString, and getOtherToken. getOtherToken recognizes
-one- and two-character tokesn in the language.
+2) getIdentifier, getNumber, getString, and getOtherToken.
+getOtherToken recognizes one and two-character tokens in the language.
 
 PROVIDED UTILITY FUNCTIONS THAT STUDENT MAY NEED TO CALL-
 
@@ -75,7 +76,8 @@ public class Lexical {
     private boolean needLine; //track when to read a new line
     //Tables to hold the reserve words and the mnemonics for token codes
     private final int sizeReserveTable = 50;
-    private ReserveTable reserveWords = new ReserveTable(sizeReserveTable); //a few more than # reserves
+    private ReserveTable reserveWords = new ReserveTable(sizeReserveTable);
+    //a few more than # reserves
     private ReserveTable mnemonics = new ReserveTable(sizeReserveTable);
     //a few more than # reserves
 
@@ -331,6 +333,31 @@ public class Lexical {
     private token getIdentifier() {
         return dummyGet();
     }
+
+    /*  GIVEN BY TEACHER
+
+    private token getIdentifier(){
+        token result = new token();
+        result.lexeme = "" + currCh; //have the first char
+        currCh = GetNextChar();
+
+        //NOTE: Below is not complete for SP23 identifier definition
+        while (isLetter(currCh)||(isDigit(currCh))) {
+            result.lexeme = result.lexeme + currCh; //extend lexeme
+            currCh = GetNextChar();
+        }
+
+        // end of token, lookup or IDENT
+        result.code = reserveWords.LookupName(result.lexeme);
+        if (result.code == -1)
+            result.code = IDENT_ID;
+
+        // Identifiers need to be added to the symbol table after truncation
+        //as needed
+        return result;
+    }
+
+     */
 
     private token getNumber() {
         /* a number is: see token description! */

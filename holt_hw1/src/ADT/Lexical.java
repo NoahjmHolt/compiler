@@ -217,6 +217,11 @@ public class Lexical {
         // Student must create their own 5-char mnemonics
         mnemonics.Add("ARRAY", 25);
 
+        mnemonics.Add("IDENT", 33);
+        mnemonics.Add("NUMBR", 44);
+        mnemonics.Add("STRNG", 55);
+        mnemonics.Add("OTHER", 66);
+
         //1 and 2-char
         mnemonics.Add("NTEQL", 43);
 
@@ -379,15 +384,14 @@ public class Lexical {
 
     //global char
     char currCh;
-    private token getIdentifier() {
-        return dummyGet();
-    }
 
     /*  GIVEN BY TEACHER
-
+        changes added by me
+     */
     private token getIdentifier(){
         token result = new token();
         result.lexeme = "" + currCh; //have the first char
+        result.mnemonic = "IDENT";
         currCh = GetNextChar();
 
         //NOTE: Below is not complete for SP23 identifier definition
@@ -398,27 +402,49 @@ public class Lexical {
 
         // end of token, lookup or IDENT
         result.code = reserveWords.LookupName(result.lexeme);
-        if (result.code == -1)
-            result.code = IDENT_ID;
+        if (result.code == -1) {
+            //result.code = IDENT_ID;
             // Identifiers need to be added to the symbol table after truncation
             //as needed
+            if(saveSymbols.LookupSymbol(result.lexeme) == -1){
+                //saveSymbols.AddSymbol(result.lexeme, 'v', )
+            } // if not on symbol table
+
+        } // if not a reserve word
             
         return result;
     }
 
-     */
+
 
     private token getNumber() {
         /* a number is: see token description! */
-        return dummyGet();
+        token result = new token();
+        result.lexeme = "" + currCh; //have the first char
+        result.mnemonic = "NUMBR";
+        currCh = GetNextChar();
+
+        return result;
     }
 
     private token getString() {
-        return dummyGet();
+
+        token result = new token();
+        result.lexeme = "" + currCh; //have the first char
+        result.mnemonic = "STRNG";
+        currCh = GetNextChar();
+
+        return result;
     }
 
     private token getOtherToken() {
-        return dummyGet();
+
+        token result = new token();
+        result.lexeme = "" + currCh; //have the first char
+        result.mnemonic = "OTHER";
+        currCh = GetNextChar();
+
+        return result;
     }
 
     // Checks to see if a string contains a valid DOUBLE

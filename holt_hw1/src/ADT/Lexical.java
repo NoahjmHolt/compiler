@@ -209,14 +209,17 @@ public class Lexical {
         reserveWords.Add(":", 47);
         reserveWords.Add(".", 48);
         //reserveWords.Add("", 99); Used for else
+
     }
 
     /* @@@ */
     private void initMnemonics(ReserveTable mnemonics) {
-    // Student must create their own 5-char mnemonics
+        // Student must create their own 5-char mnemonics
         mnemonics.Add("ARRAY", 25);
-    //1 and 2-char
+
+        //1 and 2-char
         mnemonics.Add("NTEQL", 43);
+
     }
 
     // ********************** UTILITY FUNCTIONS
@@ -397,9 +400,9 @@ public class Lexical {
         result.code = reserveWords.LookupName(result.lexeme);
         if (result.code == -1)
             result.code = IDENT_ID;
-
-        // Identifiers need to be added to the symbol table after truncation
-        //as needed
+            // Identifiers need to be added to the symbol table after truncation
+            //as needed
+            
         return result;
     }
 

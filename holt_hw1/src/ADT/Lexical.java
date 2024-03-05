@@ -157,12 +157,58 @@ public class Lexical {
     }
 
     /* @@@ */
+    // all given in table for handout
+    // just some tedious copying over
     private void initReserveWords(ReserveTable reserveWords) {
     // Student must provide the rest
+        reserveWords.Add("GOTO", 0);
+        reserveWords.Add("INTEGER", 1);
+        reserveWords.Add("TO", 2);
+        reserveWords.Add("DO", 3);
+        reserveWords.Add("if", 4);
+        reserveWords.Add("THEN", 5);
+        reserveWords.Add("ELSE", 6);
+        reserveWords.Add("FOR", 7);
+        reserveWords.Add("OF", 8);
+        reserveWords.Add("WRITELN", 9);
+        reserveWords.Add("READIN", 10);
         reserveWords.Add("BEGIN", 11);
-    //1 and 2-char
+        reserveWords.Add("END", 12);
+        reserveWords.Add("VAR", 13);
+        reserveWords.Add("WHILE", 14);
+        reserveWords.Add("UNIT", 15);
+        reserveWords.Add("LABEL", 16);
+        reserveWords.Add("REPEAT", 17);
+        reserveWords.Add("UNTIL", 18);
+        reserveWords.Add("PROCEDURE", 19);
+        reserveWords.Add("DOWNTO", 20);
+        reserveWords.Add("FUNCTION", 21);
+        reserveWords.Add("RETURN", 22);
+        reserveWords.Add("REAL", 23);
+        reserveWords.Add("STRING", 24);
+        reserveWords.Add("ARRAY", 25);
+
+        //1 and 2-char
         reserveWords.Add("/", 30);
+        reserveWords.Add("*", 31);
+        reserveWords.Add("+", 32);
+        reserveWords.Add("-", 33);
+        reserveWords.Add("(", 34);
+        reserveWords.Add(")", 35);
+        reserveWords.Add(";", 36);
+        reserveWords.Add(":=", 37);
+        reserveWords.Add(">", 38);
+        reserveWords.Add("<", 39);
+        reserveWords.Add(">=", 40);
+        reserveWords.Add("<=", 41);
+        reserveWords.Add("=", 42);
         reserveWords.Add("<>", 43);
+        reserveWords.Add(",", 44);
+        reserveWords.Add("[", 45);
+        reserveWords.Add("]", 46);
+        reserveWords.Add(":", 47);
+        reserveWords.Add(".", 48);
+        //reserveWords.Add("", 99); Used for else
     }
 
     /* @@@ */

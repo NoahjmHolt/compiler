@@ -208,23 +208,70 @@ public class Lexical {
         reserveWords.Add("]", 46);
         reserveWords.Add(":", 47);
         reserveWords.Add(".", 48);
-        //reserveWords.Add("", 99); Used for else
+
+        // all else
+        reserveWords.Add("UNKN", 99);
 
     }
 
     /* @@@ */
     private void initMnemonics(ReserveTable mnemonics) {
         // Student must create their own 5-char mnemonics
-        mnemonics.Add("ARRAY", 25);
+        mnemonics.Add("GOTO", 0);
+        mnemonics.Add("INTR", 1);
+        mnemonics.Add("_TO_", 2);
+        mnemonics.Add("_DO_", 3);
+        mnemonics.Add("_if_", 4);
+        mnemonics.Add("THEN", 5);
+        mnemonics.Add("ELSE", 6);
+        mnemonics.Add("_FOR", 7);
+        mnemonics.Add("_OF_", 8);
+        mnemonics.Add("WRLN", 9);
+        mnemonics.Add("RDIN", 10);
+        mnemonics.Add("BEGN", 11);
+        mnemonics.Add("END", 12);
+        mnemonics.Add("VAR", 13);
+        mnemonics.Add("WHIL", 14);
+        mnemonics.Add("UNIT", 15);
+        mnemonics.Add("LABL", 16);
+        mnemonics.Add("REPT", 17);
+        mnemonics.Add("UNTL", 18);
+        mnemonics.Add("PROC", 19);
+        mnemonics.Add("DWTO", 20);
+        mnemonics.Add("FUNC", 21);
+        mnemonics.Add("RTRN", 22);
+        mnemonics.Add("REAL", 23);
+        mnemonics.Add("STRNG", 24);
 
-        mnemonics.Add("IDENT", 33);
-        mnemonics.Add("INTGR", 51);
-        mnemonics.Add("FLOAT", 52);
-        mnemonics.Add("STRNG", 53);
-        mnemonics.Add("OTHER", 66);
+        mnemonics.Add("ARRY", 25);
+
+        mnemonics.Add("DIVD", 30);
+        mnemonics.Add("MULT", 31);
+        mnemonics.Add("ADD_", 32);
+        mnemonics.Add("SUBT", 33);
+        mnemonics.Add("LFPR", 34);
+        mnemonics.Add("RTPR", 35);
+        mnemonics.Add("NDLN", 36); // end line
+        mnemonics.Add("ASGN", 37); // assign
+        mnemonics.Add("GRTR", 38);
+        mnemonics.Add("LSEQ", 41);
+        mnemonics.Add("EQIL", 42);
+
+        mnemonics.Add("COMA", 44);
+        mnemonics.Add("LFBR", 45);
+        mnemonics.Add("RTBR", 46);
+        mnemonics.Add("COLN", 47);
+        mnemonics.Add("DOTS", 48);
+
+        mnemonics.Add("IDNT", 50);
+        mnemonics.Add("INTC", 51);
+        mnemonics.Add("FLOT", 52);
+        mnemonics.Add("STRG", 53);
+        mnemonics.Add("OTHR", 66);
+        mnemonics.Add("UNKN", 99);
 
         //1 and 2-char
-        mnemonics.Add("NTEQL", 43);
+        mnemonics.Add("NTEQ", 43);
 
     }
 
@@ -415,7 +462,7 @@ public class Lexical {
         }
             
         return result;
-    }
+    } // get IDENT
 
 
 
@@ -437,18 +484,26 @@ public class Lexical {
         }
 
         if (periodCounter == 0){
-            result.mnemonic = "INTGR";
-            result.code = 51;
+            if (integerOK(result.lexeme)) {
+                result.mnemonic = "INTGR";
+                result.code = 51;
+            } else {
+                //error
+            }
         } else if (periodCounter == 1){
-            result.mnemonic = "FLOAT";
-            result.code = 52;
+            if (doubleOK(result.lexeme)) {
+                result.mnemonic = "FLOAT";
+                result.code = 52;
+            } else {
+                //error
+            }
         } else {
             //error to many periods
             
         }
 
         return result;
-    }
+    } // get num
 
     private token getString() {
 
@@ -463,7 +518,7 @@ public class Lexical {
         }
 
         return result;
-    }
+    } // get string
 
     private token getOtherToken() {
 

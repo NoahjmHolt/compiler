@@ -217,6 +217,7 @@ public class Lexical {
     /* @@@ */
     private void initMnemonics(ReserveTable mnemonics) {
         // Student must create their own 5-char mnemonics
+        //                               4-char per announcment
         mnemonics.Add("GOTO", 0);
         mnemonics.Add("INTR", 1);
         mnemonics.Add("_TO_", 2);
@@ -241,7 +242,7 @@ public class Lexical {
         mnemonics.Add("FUNC", 21);
         mnemonics.Add("RTRN", 22);
         mnemonics.Add("REAL", 23);
-        mnemonics.Add("STRNG", 24);
+        mnemonics.Add("STNG", 24);
 
         mnemonics.Add("ARRY", 25);
 
@@ -439,8 +440,10 @@ public class Lexical {
     private token getIdentifier(){
         token result = new token();
         result.lexeme = "" + currCh; //have the first char
-        result.mnemonic = "IDENT";
+        result.mnemonic = "IDNT";
         currCh = GetNextChar();
+
+        int indentMax = 20;
 
         //NOTE: Below is not complete for SP23 identifier definition
         while (isLetter(currCh)||(isDigit(currCh))) {
@@ -453,13 +456,24 @@ public class Lexical {
         if (result.code == -1) {
             //result.code = IDENT_ID;
             // Identifiers need to be added to the symbol table after truncation
-            //as needed
+            // as needed
+
+            // trunc string to 20 if needed
+            if (result.lexeme.length() >= indentMax){
+                result.lexeme = result.lexeme.substring(0, indentMax);
+            }
+
             if(saveSymbols.LookupSymbol(result.lexeme) == -1){
                 //saveSymbols.AddSymbol(result.lexeme, 'v', )
+                saveSymbols.AddSymbol(result.lexeme, 'V', 0);
+
             } // if not on symbol table
 
-            // if not a reserve word
-        }
+
+
+        } // if not a reserve word
+
+        result.code = mnemonics.LookupName(result.mnemonic);
             
         return result;
     } // get IDENT

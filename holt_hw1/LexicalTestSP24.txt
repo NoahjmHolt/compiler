@@ -1,7 +1,6 @@
 
 
 
-
 {Here is the SPRING 2024 Lexical Test file which 
   has a comment that
   spans 3 lines, followed by an empty comment }
@@ -22,33 +21,34 @@ hereisareallylongidentifierthatissameasabovewhentruncated := 76.5E-12;
   
    *) {<--Orphaned closed comment is just '*' and ')' returned as separate tokens}
           
-		  myString_1 : = 'a good string';
-		  string2 := 'unfinished string makes an error ;
+		  myString_1 : = "a good string";
+		  string2 := "unfinished string makes an error ;
   
   test single #and two char tokens 
      # /*^&%+-  some more (   ) (**) ;:=><>=<==<>,[]:.
 (* mixed in reserve words 
-below........................... *)  "single quote not double"
+below........................... *)  'single quote bad'
+
   GoTo JumpOut;  INTEGER TO DO
 	begin  if not then that else nothing
-IF IFCOND THEN ELSE
+IF THEN ELSE
 For I := 1 to 100.E7 of float do
-    WRITE  READ 
+    WRITELN  READLN 
     BEGIN
-    END   ForLoop
+    END   
   declare  ARRAY 
-   VAR DOLOOP WHILE  module UNIT Label  RePeaT  UNTIL done = TRUE;
+   VAR WHILE  module UNIT Label  RePeaT  UNTIL done = TRUE;
 
  PROCEDURE  FUNCTION DOWNto does READLN   RETURN
 	FLOAT
 	STRING
 
-not reserve writeln.   !@#$%^&*()_+
+reserve writeln.   !@#$%^&*()_+
 sum := 0.0;
 sum := sum + 2;
 What if 2. is found?
 5.E+
-    7.E-3 = good
+    7.E-3 { is bad, no + or - allowed}
 (* end of file comes
    before the end of this 
    comment-- Throw an Error!

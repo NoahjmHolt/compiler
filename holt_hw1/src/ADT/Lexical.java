@@ -314,7 +314,7 @@ public class Lexical {
         return result;
     }
 
-    // Called by GetNextChar when the cahracters in the current line are used up.
+    // Called by GetNextChar when the characters in the current line are used up.
     // STUDENT CODE SHOULD NOT EVER CALL THIS!
     private void GetNextLine() {
         try {
@@ -428,7 +428,7 @@ public class Lexical {
     }
 
     private boolean isStringStart(char ch) {
-        return ch == '"';
+        return ch == '\'';
     }
 
     //global char
@@ -541,10 +541,20 @@ public class Lexical {
         result.mnemonic = "OTHER";
         currCh = GetNextChar();
 
-        while (!(isLetter(currCh))||!(isDigit(currCh))) {
+        while (!(isLetter(currCh)) && !(isDigit(currCh))) {
             result.lexeme = result.lexeme + currCh; //extend lexeme
             currCh = GetNextChar();
         }
+
+        //now we have symbol check on reserve
+        // or exit with error
+        result.code = reserveWords.LookupName(result.lexeme);
+        // if not on reserve then 99 unknown
+        if (result.code == -1){
+            result.code = 99; // actual unknown, maybe change lookup to be 99 if not
+        }
+        // else it was on the table or is now
+        result.mnemonic = mnemonics.LookupCode(result.code);
 
         return result;
     }

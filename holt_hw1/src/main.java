@@ -9,8 +9,8 @@ import ADT.*;
  */
 public class main {
     public static void main(String[] args) {
-        String inFileAndPath = args[0];
-        String outFileAndPath = args[1];
+        String inFileAndPath = args[0]; // "LexicalTestSP24.txt";
+        String outFileAndPath = args[1]; // "OutputLexical.txt";//
         System.out.println("Lexical for " + inFileAndPath);
         boolean traceOn = true;
 

@@ -252,11 +252,11 @@ public class Lexical {
         mnemonics.Add("SUBT", 33);
         mnemonics.Add("LFPR", 34);
         mnemonics.Add("RTPR", 35);
-        mnemonics.Add("NDLN", 36); // end line
-        mnemonics.Add("ASGN", 37); // assign
+        mnemonics.Add("ENDL", 36);
+        mnemonics.Add("ASGN", 37);
         mnemonics.Add("GRTR", 38);
         mnemonics.Add("LSEQ", 41);
-        mnemonics.Add("EQIL", 42);
+        mnemonics.Add("EQUL", 42);
 
         mnemonics.Add("COMA", 44);
         mnemonics.Add("LFBR", 45);
@@ -434,7 +434,7 @@ public class Lexical {
     //global char
     char currCh;
 
-    /*  GIVEN BY TEACHER
+    /*  STARTED BY TEACHER
         changes added by me
      */
     private token getIdentifier(){
@@ -460,6 +460,7 @@ public class Lexical {
 
             // trunc string to 20 if needed
             if (result.lexeme.length() >= indentMax){
+                consoleShowError("Ident Name too long, truncating to 20 chars!");
                 result.lexeme = result.lexeme.substring(0, indentMax);
             }
 
@@ -522,14 +523,28 @@ public class Lexical {
     private token getString() {
 
         token result = new token();
-        result.lexeme = "" + currCh; //have the first char
-        result.mnemonic = "STRNG";
+        result.mnemonic = "STRG";
+        result.code = mnemonics.LookupName(result.mnemonic);
+        // currChar = '
+        // get next to begin getting actual contents
         currCh = GetNextChar();
 
-        while (isLetter(currCh)||(isDigit(currCh))) {
+        // check not finished and not the end
+        while (!isStringStart(currCh) && currCh != '\0') {
             result.lexeme = result.lexeme + currCh; //extend lexeme
             currCh = GetNextChar();
         }
+
+        if (currCh == '\0'){ // ie reached end of given line and not end of string
+            consoleShowError("Unterminated String!");
+            result.lexeme = "ERROR";
+            result.mnemonic = "UNKN";
+            result.code = 99;
+        }
+
+        //exited while currChar = '
+        //want new before leaving
+        currCh = GetNextChar();
 
         return result;
     } // get string
@@ -543,6 +558,13 @@ public class Lexical {
 
         while (!(isLetter(currCh)) && !(isDigit(currCh))) {
             result.lexeme = result.lexeme + currCh; //extend lexeme
+            // check if reserve is found and stop there.
+            if (reserveWords.LookupName(result.lexeme) != -1){
+                result.code = reserveWords.LookupName(result.lexeme);
+                result.mnemonic = mnemonics.LookupCode(result.code);
+                currCh = GetNextChar();
+                return result;
+            }
             currCh = GetNextChar();
         }
 

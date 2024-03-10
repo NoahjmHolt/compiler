@@ -196,13 +196,13 @@ public class Lexical {
         reserveWords.Add("(", 34);
         reserveWords.Add(")", 35);
         reserveWords.Add(";", 36);
-        reserveWords.Add(":=", 37);
+        reserveWords.Add(":=", 37); // 2
         reserveWords.Add(">", 38);
         reserveWords.Add("<", 39);
-        reserveWords.Add(">=", 40);
-        reserveWords.Add("<=", 41);
+        reserveWords.Add(">=", 40); // 2
+        reserveWords.Add("<=", 41); // 2
         reserveWords.Add("=", 42);
-        reserveWords.Add("<>", 43);
+        reserveWords.Add("<>", 43); // 2
         reserveWords.Add(",", 44);
         reserveWords.Add("[", 45);
         reserveWords.Add("]", 46);
@@ -275,6 +275,8 @@ public class Lexical {
         mnemonics.Add("NTEQ", 43);
 
     }
+
+    //region Given Code From Instructor not changing
 
     // ********************** UTILITY FUNCTIONS
     private void consoleShowError(String message) {
@@ -428,8 +430,10 @@ public class Lexical {
     }
 
     private boolean isStringStart(char ch) {
-        return ch == '\'';
+        return ch == '\"';
     }
+
+    //endregion n
 
     //global char
     char currCh;
@@ -446,7 +450,7 @@ public class Lexical {
         int indentMax = 20;
 
         //NOTE: Below is not complete for SP23 identifier definition
-        while (isLetter(currCh)||(isDigit(currCh))) {
+        while (isLetter(currCh)||(isDigit(currCh)) || currCh == '_') {
             result.lexeme = result.lexeme + currCh; //extend lexeme
             currCh = GetNextChar();
         }
@@ -478,7 +482,6 @@ public class Lexical {
             
         return result;
     } // get IDENT
-
 
 
     private token getNumber() {
@@ -520,6 +523,7 @@ public class Lexical {
         return result;
     } // get num
 
+
     private token getString() {
 
         token result = new token();
@@ -549,6 +553,7 @@ public class Lexical {
         return result;
     } // get string
 
+
     private token getOtherToken() {
 
         token result = new token();
@@ -557,14 +562,33 @@ public class Lexical {
         currCh = GetNextChar();
 
         while (!(isLetter(currCh)) && !(isDigit(currCh))) {
-            result.lexeme = result.lexeme + currCh; //extend lexeme
+
             // check if reserve is found and stop there.
-            if (reserveWords.LookupName(result.lexeme) != -1){
+            // also realize may need to catch the double marks
+            //writing in assignment op for now, may want for others
+            int size = result.lexeme.length();
+            if (result.lexeme.charAt(size-1) == ':'){ //check if assign or just a col
+                if (currCh == '='){ //then assignment and end
+                    result.lexeme = result.lexeme + currCh; //extend lexeme
+                    result.code = reserveWords.LookupName(result.lexeme);
+                    result.mnemonic = mnemonics.LookupCode(result.code);
+                    currCh = GetNextChar();
+                    return result;
+                    // this code gets repeated 2x
+                    // thinking could make another func to do
+                    // but somewhere in the instructions I thought
+                    // I saw not to add others that aren't given.
+                    // will try to reread and add if I can.
+                }
+            } else if (reserveWords.LookupName(result.lexeme) != -1){
                 result.code = reserveWords.LookupName(result.lexeme);
                 result.mnemonic = mnemonics.LookupCode(result.code);
                 currCh = GetNextChar();
                 return result;
+            } else {
+                result.lexeme = result.lexeme + currCh; //extend lexeme
             }
+
             currCh = GetNextChar();
         }
 
@@ -580,6 +604,7 @@ public class Lexical {
 
         return result;
     }
+
 
     // Checks to see if a string contains a valid DOUBLE
     public boolean doubleOK(String stin) {

@@ -485,7 +485,7 @@ public class Lexical {
         /* a number is: see token description! */
         token result = new token();
         result.lexeme = "" + currCh; //have the first char
-        result.mnemonic = "NUMBR";
+        result.mnemonic = "NUMB";
         currCh = GetNextChar();
 
         int periodCounter = 0;
@@ -500,14 +500,14 @@ public class Lexical {
 
         if (periodCounter == 0){
             if (integerOK(result.lexeme)) {
-                result.mnemonic = "INTGR";
+                result.mnemonic = "INTC";
                 result.code = 51;
             } else {
                 //error
             }
         } else if (periodCounter == 1){
             if (doubleOK(result.lexeme)) {
-                result.mnemonic = "FLOAT";
+                result.mnemonic = "FLOT";
                 result.code = 52;
             } else {
                 //error

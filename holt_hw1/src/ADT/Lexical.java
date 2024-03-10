@@ -457,6 +457,7 @@ public class Lexical {
 
         // end of token, lookup or IDENT
         result.code = reserveWords.LookupName(result.lexeme);
+
         if (result.code == -1) {
             //result.code = IDENT_ID;
             // Identifiers need to be added to the symbol table after truncation
@@ -474,11 +475,15 @@ public class Lexical {
 
             } // if not on symbol table
 
+            result.code = mnemonics.LookupName(result.mnemonic);
+
+        } else { // is a reserve word
+
+            result.mnemonic = mnemonics.LookupCode(result.code);
+
+        }
 
 
-        } // if not a reserve word
-
-        result.code = mnemonics.LookupName(result.mnemonic);
             
         return result;
     } // get IDENT
@@ -488,12 +493,14 @@ public class Lexical {
         /* a number is: see token description! */
         token result = new token();
         result.lexeme = "" + currCh; //have the first char
-        result.mnemonic = "NUMB";
         currCh = GetNextChar();
 
         int periodCounter = 0;
+        int maxInt = 6;
+        int maxFloat = 12;
+        boolean wasFloat = false;
 
-        while (periodCounter < 2 && (isDigit(currCh))) {
+        while (periodCounter < 2 && (isDigit(currCh)) || currCh == '.') {
             result.lexeme = result.lexeme + currCh; //extend lexeme
             if (currCh == '.'){
                 periodCounter += 1;
@@ -501,23 +508,68 @@ public class Lexical {
             currCh = GetNextChar();
         }
 
+        // Did we leave for Float?
+        if (currCh == 'E'){
+            result.lexeme = result.lexeme + currCh;
+            currCh = GetNextChar();
+
+            while (isDigit(currCh)) {
+                result.lexeme = result.lexeme + currCh; //extend lexeme
+                wasFloat = true; // must have number so moved into the while
+                // now we must see 1 digit after E
+
+                if (currCh == '.'){
+                    periodCounter += 1;
+                }
+                currCh = GetNextChar();
+            }
+        }
+
         if (periodCounter == 0){
+
+            // trunc
+            if (result.lexeme.length() >= maxInt){
+                consoleShowError("Integer too long, truncating to " + maxInt + " characters.");
+                result.lexeme = result.lexeme.substring(0, maxInt);
+            }
+
             if (integerOK(result.lexeme)) {
                 result.mnemonic = "INTC";
-                result.code = 51;
+                result.code = mnemonics.LookupName(result.mnemonic);
+
             } else {
                 //error
+                consoleShowError("Not a Valid Integer!");
             }
-        } else if (periodCounter == 1){
+        } else if (wasFloat || periodCounter == 1){
+
+            // trunc
+            if (result.lexeme.length() >= maxFloat){
+                consoleShowError("Integer too long, truncating to " + maxFloat + " characters.");
+                result.lexeme = result.lexeme.substring(0, maxFloat);
+            }
+
             if (doubleOK(result.lexeme)) {
                 result.mnemonic = "FLOT";
-                result.code = 52;
+                result.code = mnemonics.LookupName(result.mnemonic);
+
             } else {
                 //error
+                consoleShowError("Not a Valid Floating Point!");
             }
+
         } else {
             //error to many periods
+            consoleShowError("Too many alternate characters!");
             
+        }
+
+        // in case of unknown issue
+        // I say unknown, I am getting an issue so covering the bases
+        if (result.mnemonic.isEmpty()){
+            consoleShowError("Something seems wrong!");
+            result.code = 99;
+            result.mnemonic = mnemonics.LookupCode(result.code);
         }
 
         return result;
@@ -534,16 +586,16 @@ public class Lexical {
         currCh = GetNextChar();
 
         // check not finished and not the end
-        while (!isStringStart(currCh) && currCh != '\0') {
+        while (!isStringStart(currCh) && currCh != ';') {
             result.lexeme = result.lexeme + currCh; //extend lexeme
             currCh = GetNextChar();
         }
 
-        if (currCh == '\0'){ // ie reached end of given line and not end of string
+        if (currCh == ';'){ // ie reached end of given line and not end of string
             consoleShowError("Unterminated String!");
-            result.lexeme = "ERROR";
-            result.mnemonic = "UNKN";
-            result.code = 99;
+            result.lexeme = "" + currCh;
+            result.code = reserveWords.LookupName(result.lexeme);
+            result.mnemonic = mnemonics.LookupCode(result.code);
         }
 
         //exited while currChar = '

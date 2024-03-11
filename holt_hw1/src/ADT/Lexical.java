@@ -407,7 +407,6 @@ public class Lexical {
             } // if check next
 
         } // if current
-
         return (curr);
     } // skip comment
 
@@ -537,6 +536,11 @@ public class Lexical {
                 result.mnemonic = "INTC";
                 result.code = mnemonics.LookupName(result.mnemonic);
 
+                if(saveSymbols.LookupSymbol(result.lexeme) == -1) {
+                    //saveSymbols.AddSymbol(result.lexeme, 'v', )
+                    saveSymbols.AddSymbol(result.lexeme, 'C', Integer.parseInt(result.lexeme));
+                }
+
             } else {
                 //error
                 consoleShowError("Not a Valid Integer!");
@@ -552,6 +556,11 @@ public class Lexical {
             if (doubleOK(result.lexeme)) {
                 result.mnemonic = "FLOT";
                 result.code = mnemonics.LookupName(result.mnemonic);
+
+                if(saveSymbols.LookupSymbol(result.lexeme) == -1) {
+                    //saveSymbols.AddSymbol(result.lexeme, 'v', )
+                    saveSymbols.AddSymbol(result.lexeme, 'C', Float.parseFloat(result.lexeme));
+                }
 
             } else {
                 //error
@@ -613,7 +622,7 @@ public class Lexical {
         result.mnemonic = "OTHER";
         currCh = GetNextChar();
 
-        while (!(isLetter(currCh)) && !(isDigit(currCh))) {
+        while (!(isLetter(currCh)) && !(isDigit(currCh)) && (!EOF)) {
 
             // check if reserve is found and stop there.
             // also realize may need to catch the double marks

@@ -96,8 +96,6 @@ public class SymbolTable {
             if (symbol.compareToIgnoreCase(symbolTable[i][0]) == 0) {
                 // exit and return i if equal
                 return i;
-            } else {
-                return -1;
             }
         }
 

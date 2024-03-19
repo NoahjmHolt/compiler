@@ -644,7 +644,7 @@ public class Lexical {
             } else if (reserveWords.LookupName(result.lexeme) != -1){
                 result.code = reserveWords.LookupName(result.lexeme);
                 result.mnemonic = mnemonics.LookupCode(result.code);
-                currCh = GetNextChar();
+                //currCh = GetNextChar();
                 return result;
             } else {
                 result.lexeme = result.lexeme + currCh; //extend lexeme

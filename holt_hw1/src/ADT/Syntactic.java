@@ -37,7 +37,7 @@ package ADT;
  *
  * @author abrouill
  */
-public class Syntax {
+public class Syntactic {
 
     private String filein;              //The full file path to input file
     private SymbolTable symbolList;     //Symbol table storing ident/const
@@ -49,7 +49,7 @@ public class Syntax {
 
     private final int symbolSize = 250;
 
-    public Syntax(String filename, boolean traceOn) {
+    public Syntactic(String filename, boolean traceOn) {
         filein = filename;
         traceon = traceOn;
         symbolList = new SymbolTable(symbolSize);

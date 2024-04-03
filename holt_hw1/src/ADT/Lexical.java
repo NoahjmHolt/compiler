@@ -619,7 +619,7 @@ public class Lexical {
 
         token result = new token();
         result.lexeme = "" + currCh; //have the first char
-        result.mnemonic = "OTHER";
+        result.mnemonic = "OTHR";
         currCh = GetNextChar();
 
         while (!(isLetter(currCh)) && !(isDigit(currCh)) && (!EOF)) {
@@ -642,10 +642,12 @@ public class Lexical {
                     // will try to reread and add if I can.
                 }
             } else if (reserveWords.LookupName(result.lexeme) != -1){
+
                 result.code = reserveWords.LookupName(result.lexeme);
                 result.mnemonic = mnemonics.LookupCode(result.code);
                 //currCh = GetNextChar();
                 return result;
+
             } else {
                 result.lexeme = result.lexeme + currCh; //extend lexeme
             }

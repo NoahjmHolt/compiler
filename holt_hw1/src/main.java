@@ -1,35 +1,22 @@
-//import ADT.Lexical;
 
-//import ADT.LexicalReserve;
 import ADT.*;
-//import ADT.Lexical;
+
 /**
  *
- * @author nholt Spring 2024
+ * @author abrouill SPRING 2024
+ *  implimented by nholt
  */
 public class main {
+
     public static void main(String[] args) {
-        String inFileAndPath = args[0]; //
-        String outFileAndPath = args[1];  //
-        System.out.println("Lexical for " + inFileAndPath);
-        boolean traceOn = true;
+        String filePath = args[0];
+        boolean traceon = true;
+        System.out.println("Student Name, Last 4 of student number, CS4100/5100, SPRING 2024");
+        System.out.println("INPUT FILE TO PROCESS IS: "+filePath);
 
-        // Create a symbol table to store appropriate ident, number,string
-        // symbols found NO RESERVE WORDS GO IN THE SYMBOL TABLE!
-        SymbolTable symbolList;
-        symbolList = new SymbolTable(150);
-        Lexical myLexer = new Lexical(inFileAndPath, symbolList, traceOn);
-        Lexical.token currToken;
-        currToken = myLexer.GetNextToken();
-
-        while (currToken != null) {
-            System.out.println("\t" + currToken.mnemonic + " | \t" +
-                    String.format("%04d", currToken.code)
-                    + " | \t" + currToken.lexeme);
-            currToken = myLexer.GetNextToken();
-        }
-
-        symbolList.PrintSymbolTable(outFileAndPath);
+        Syntactic parser = new Syntactic(filePath, traceon);
+        parser.parse();
         System.out.println("Done.");
     }
+
 }

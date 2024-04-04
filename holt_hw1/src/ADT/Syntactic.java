@@ -169,11 +169,11 @@ public class Syntactic {
     }
 
     // NonTerminal This is dummied in to only work for an identifier.
-//  It will work with the SyntaxAMiniTest file having ASSIGNMENT statements
-//     containing only IDENTIFIERS.  TERM and FACTOR and numbers will be
-//     needed to complete Part A.
-// SimpleExpression MUST BE 
-//  COMPLETED TO IMPLEMENT CFG for <simple expression>
+    //  It will work with the SyntaxAMiniTest file having ASSIGNMENT statements
+    //     containing only IDENTIFIERS.  TERM and FACTOR and numbers will be
+    //     needed to complete Part A.
+    // SimpleExpression MUST BE
+    //  COMPLETED TO IMPLEMENT CFG for <simple expression>
     private int SimpleExpression() {
         int recur = 0;
         if (anyErrors) {
@@ -189,7 +189,7 @@ public class Syntactic {
     }
 
     // Eventually this will handle all possible statement starts in
-//    a nested if/else or switch structure. Only ASSIGNMENT is implemented now.
+    //    a nested if/else or switch structure. Only ASSIGNMENT is implemented now.
     private int Statement() {
         int recur = 0;
         if (anyErrors) {
@@ -282,9 +282,9 @@ public class Syntactic {
         return result;
     }
 
-/*  Template for all the non-terminal method bodies
+    /*  Template for all the non-terminal method bodies
    // ALL OF THEM SHOULD LOOK LIKE THE FOLLOWING AT THE ENTRY/EXIT POINTS  
-private int exampleNonTerminal(){
+    private int exampleNonTerminal(){
         int recur = 0;   //Return value used later
         if (anyErrors) { // Error check for fast exit, error status -1
             return -1;
@@ -292,14 +292,14 @@ private int exampleNonTerminal(){
 
         trace("NameOfThisMethod", true);
 		
-// The unique non-terminal stuff goes here, assigning to "recur" based
-//     on recursive calls that were made
+    // The unique non-terminal stuff goes here, assigning to "recur" based
+    //     on recursive calls that were made
         
 		trace("NameOfThisMethod", false);
-// Final result of assigning to "recur" in the body is returned
+    // Final result of assigning to "recur" in the body is returned
         return recur;
 
-}  
+    }
     
     */
 }

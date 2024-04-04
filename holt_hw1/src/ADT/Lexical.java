@@ -643,6 +643,13 @@ public class Lexical {
                 }
             } else if (reserveWords.LookupName(result.lexeme) != -1){
 
+                // for case of 2 char lexeme
+                String test = result.lexeme + PeekNextChar();
+                if (reserveWords.LookupName(test) != -1){
+                    result.lexeme = result.lexeme + currCh;
+                    currCh = GetNextChar();
+                }
+
                 result.code = reserveWords.LookupName(result.lexeme);
                 result.mnemonic = mnemonics.LookupCode(result.code);
                 //currCh = GetNextChar();

@@ -183,11 +183,15 @@ public class Syntactic {
         }
 
         trace("SimpleExpression", true);
+
+        // check for sign
         if (token.code == lex.codeFor("ADD_") || token.code == lex.codeFor("SUBT")) {
             token = lex.GetNextToken();
         }
-        recur = Term();
 
+        // call term at least once
+        recur = Term();
+        // then any number of times
         while (token.code == lex.codeFor("ADD_") || token.code == lex.codeFor("SUBT")) {
             token = lex.GetNextToken();
             recur = Term();
@@ -206,8 +210,17 @@ public class Syntactic {
         }
 
         trace("Term", true);
-        if (token.code == lex.codeFor("IDNT")) {
+        // check for sign
+        if (token.code == lex.codeFor("ADD_") || token.code == lex.codeFor("SUBT")) {
             token = lex.GetNextToken();
+        }
+
+        // call factor once
+        recur = Factor();
+        // then any number of other factors after mult op
+        while (token.code == lex.codeFor("MULT") || token.code == lex.codeFor("DIVD")) {
+            token = lex.GetNextToken();
+            recur = Factor();
         }
         trace("Term", false);
         return recur;

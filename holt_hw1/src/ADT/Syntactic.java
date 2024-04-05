@@ -237,6 +237,11 @@ public class Syntactic {
         trace("Factor", true);
         if (token.code == lex.codeFor("IDNT")) {
             token = lex.GetNextToken();
+        } else if (token.code == lex.codeFor("INTC") || token.code == lex.codeFor("FLOT")) {
+            token = lex.GetNextToken();
+        } else {
+            token = lex.GetNextToken();
+            recur = SimpleExpression();
         }
         trace("Factor", false);
         return recur;

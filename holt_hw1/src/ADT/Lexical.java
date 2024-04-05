@@ -732,11 +732,15 @@ public class Lexical {
             }
         }
 
+        /*
         if (printToken) {
             System.out.println("\t" + result.mnemonic + " | \t" + String.format("%04d", result.code) + " | \t" + result.lexeme);
         }
 
+         */
         return result;
+
+
     } // get next token func
 
 

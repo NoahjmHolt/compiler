@@ -183,9 +183,16 @@ public class Syntactic {
         }
 
         trace("SimpleExpression", true);
-        if (token.code == lex.codeFor("IDNT")) {
+        if (token.code == lex.codeFor("ADD_") || token.code == lex.codeFor("SUBT")) {
             token = lex.GetNextToken();
         }
+        recur = Term();
+
+        while (token.code == lex.codeFor("ADD_") || token.code == lex.codeFor("SUBT")) {
+            token = lex.GetNextToken();
+            recur = Term();
+        }
+
         trace("SimpleExpression", false);
         return recur;
     }

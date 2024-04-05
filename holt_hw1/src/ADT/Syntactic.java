@@ -95,20 +95,20 @@ public class Syntactic {
         if (token.code == lex.codeFor("UNIT")) {
             token = lex.GetNextToken();
             recur = ProgIdentifier();
-            if (token.code == lex.codeFor("SEMI")) {
+            if (token.code == lex.codeFor("ENDL")) {
                 token = lex.GetNextToken();
                 recur = Block();
-                if (token.code == lex.codeFor("PERD")) {
+                if (token.code == lex.codeFor("DOTS")) {
                     if (!anyErrors) {
                         System.out.println("Success.");
                     } else {
                         System.out.println("Compilation failed.");
                     }
                 } else {
-                    error(lex.reserveFor("PERD"), token.lexeme);
+                    error(lex.reserveFor("DOTS"), token.lexeme);
                 }
             } else {
-                error(lex.reserveFor("SEMI"), token.lexeme);
+                error(lex.reserveFor("ENDL"), token.lexeme);
             }
         } else {
             error(lex.reserveFor("UNIT"), token.lexeme);
@@ -125,10 +125,10 @@ public class Syntactic {
         }
         trace("Block", true);
 
-        if (token.code == lex.codeFor("BGIN")) {
+        if (token.code == lex.codeFor("BEGN")) {
             token = lex.GetNextToken();
             recur = Statement();
-            while ((token.code == lex.codeFor("SEMI")) && (!lex.EOF()) && (!anyErrors)) {
+            while ((token.code == lex.codeFor("ENDL")) && (!lex.EOF()) && (!anyErrors)) {
                 token = lex.GetNextToken();
                 recur = Statement();
             }
@@ -139,7 +139,7 @@ public class Syntactic {
             }
 
         } else {
-            error(lex.reserveFor("BGIN"), token.lexeme);
+            error(lex.reserveFor("BEGN"), token.lexeme);
         }
 
         trace("Block", false);
@@ -174,6 +174,8 @@ public class Syntactic {
     //     needed to complete Part A.
     // SimpleExpression MUST BE
     //  COMPLETED TO IMPLEMENT CFG for <simple expression>
+
+    // <SimpleExpression> => [<sign>] <term> [ <addop> <term]*
     private int SimpleExpression() {
         int recur = 0;
         if (anyErrors) {
@@ -185,6 +187,38 @@ public class Syntactic {
             token = lex.GetNextToken();
         }
         trace("SimpleExpression", false);
+        return recur;
+    }
+
+
+    // <term> => <factor> [<mulop> <factor>]*
+    private int Term() {
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("Term", true);
+        if (token.code == lex.codeFor("IDNT")) {
+            token = lex.GetNextToken();
+        }
+        trace("Term", false);
+        return recur;
+    }
+
+
+    // <factor> => <ident> || <number> || <SimpleExpression>
+    private int Factor() {
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("Factor", true);
+        if (token.code == lex.codeFor("IDNT")) {
+            token = lex.GetNextToken();
+        }
+        trace("Factor", false);
         return recur;
     }
 
@@ -216,7 +250,7 @@ public class Syntactic {
     }
 
     //Non-terminal VARIABLE just looks for an IDENTIFIER.  Later, a
-//  type-check can verify compatible math ops, or if casting is required.    
+    //  type-check can verify compatible math ops, or if casting is required.
     private int Variable(){
         int recur = 0;
         if (anyErrors) {

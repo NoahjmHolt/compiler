@@ -222,7 +222,7 @@ public class Lexical {
         mnemonics.Add("INTR", 1);
         mnemonics.Add("_TO_", 2);
         mnemonics.Add("_DO_", 3);
-        mnemonics.Add("_if_", 4);
+        mnemonics.Add("_IF_", 4);
         mnemonics.Add("THEN", 5);
         mnemonics.Add("ELSE", 6);
         mnemonics.Add("_FOR", 7);
@@ -230,7 +230,7 @@ public class Lexical {
         mnemonics.Add("WRLN", 9);
         mnemonics.Add("RDIN", 10);
         mnemonics.Add("BEGN", 11);
-        mnemonics.Add("END", 12);
+        mnemonics.Add("END_", 12);
         mnemonics.Add("VAR", 13);
         mnemonics.Add("WHIL", 14);
         mnemonics.Add("UNIT", 15);

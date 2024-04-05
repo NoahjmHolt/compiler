@@ -1,0 +1,176 @@
+noah@noahs-MacBook-Pro holt_hw1_jar % java -jar holt_hw1.jar ../../../BadSyntax-2-A-SP24.txt
+noah holt, 0735, CS4100/5100, SPRING 2024
+INPUT FILE TO PROCESS IS: ../../../BadSyntax-2-A-SP24.txt
+0001
+0002 unit BadProg2;
+        unit |  0015 |  unit
+--> Entering Program
+        IDNT |  0050 |  BadProg2
+        endl |  0036 |  ;
+0003
+0004 (* This Part A test file should has one syntax error AFTER
+0005     the Lexical truncation of the long number... it should continue
+0006    to find the ** on line 14! *)
+0007
+0008 begin
+        begn |  0011 |  begin
+ --> Entering Block
+0009
+0010 sum:=(27.1234567890123456 *first); (* A long number; syntax flags it and keeps going. *)
+        IDNT |  0050 |  sum
+  --> Entering Statement
+   --> Entering handleAssignment
+    --> Entering Variable
+        asgn |  0037 |  :=
+    <-- Exiting Variable
+        lfpr |  0034 |  (
+    --> Entering SimpleExpression
+     --> Entering Term
+      --> Entering Factor
+**** ERROR FOUND: Integer too long, truncating to 12 characters.
+        FLOT |  0052 |  27.123456789
+       --> Entering SimpleExpression
+        --> Entering Term
+         --> Entering Factor
+          --> Entering UnsignedConstant
+           --> Entering UnsignedNumber
+        mult |  0031 |  *
+           <-- Exiting UnsignedNumber
+          <-- Exiting UnsignedConstant
+         <-- Exiting Factor
+         --> Entering Mulop
+        IDNT |  0050 |  first
+         <-- Exiting Mulop
+         --> Entering Factor
+          --> Entering Variable
+        rtpr |  0035 |  )
+          <-- Exiting Variable
+         <-- Exiting Factor
+         --> Entering Mulop
+         <-- Exiting Mulop
+        <-- Exiting Term
+        --> Entering Addop
+        <-- Exiting Addop
+       <-- Exiting SimpleExpression
+        endl |  0036 |  ;
+      <-- Exiting Factor
+      --> Entering Mulop
+      <-- Exiting Mulop
+     <-- Exiting Term
+     --> Entering Addop
+     <-- Exiting Addop
+    <-- Exiting SimpleExpression
+   <-- Exiting handleAssignment
+  <-- Exiting Statement
+0011 a:= b;
+        IDNT |  0050 |  a
+  --> Entering Statement
+   --> Entering handleAssignment
+    --> Entering Variable
+        asgn |  0037 |  :=
+    <-- Exiting Variable
+        IDNT |  0050 |  b
+    --> Entering SimpleExpression
+     --> Entering Term
+      --> Entering Factor
+       --> Entering Variable
+        endl |  0036 |  ;
+       <-- Exiting Variable
+      <-- Exiting Factor
+      --> Entering Mulop
+      <-- Exiting Mulop
+     <-- Exiting Term
+     --> Entering Addop
+     <-- Exiting Addop
+    <-- Exiting SimpleExpression
+   <-- Exiting handleAssignment
+  <-- Exiting Statement
+0012 (* There is a double ** error below *)
+0013 quad1 := -b +(b**b) -  2;
+        IDNT |  0050 |  quad1
+  --> Entering Statement
+   --> Entering handleAssignment
+    --> Entering Variable
+        asgn |  0037 |  :=
+    <-- Exiting Variable
+        subt |  0033 |  -
+    --> Entering SimpleExpression
+        IDNT |  0050 |  b
+     --> Entering Term
+      --> Entering Factor
+       --> Entering Variable
+        add_ |  0032 |  +
+       <-- Exiting Variable
+      <-- Exiting Factor
+      --> Entering Mulop
+      <-- Exiting Mulop
+     <-- Exiting Term
+     --> Entering Addop
+        lfpr |  0034 |  (
+     <-- Exiting Addop
+     --> Entering Term
+      --> Entering Factor
+        IDNT |  0050 |  b
+       --> Entering SimpleExpression
+        --> Entering Term
+         --> Entering Factor
+          --> Entering Variable
+        mult |  0031 |  *
+          <-- Exiting Variable
+         <-- Exiting Factor
+         --> Entering Mulop
+        mult |  0031 |  *
+         <-- Exiting Mulop
+         --> Entering Factor
+        IDNT |  0050 |  b
+          --> Entering SimpleExpression
+           --> Entering Term
+            --> Entering Factor
+             --> Entering Variable
+        rtpr |  0035 |  )
+             <-- Exiting Variable
+            <-- Exiting Factor
+            --> Entering Mulop
+            <-- Exiting Mulop
+           <-- Exiting Term
+           --> Entering Addop
+           <-- Exiting Addop
+          <-- Exiting SimpleExpression
+        subt |  0033 |  -
+         <-- Exiting Factor
+         --> Entering Mulop
+         <-- Exiting Mulop
+        <-- Exiting Term
+        --> Entering Addop
+        INTC |  0051 |  2
+        <-- Exiting Addop
+        --> Entering Term
+         --> Entering Factor
+          --> Entering UnsignedConstant
+           --> Entering UnsignedNumber
+        endl |  0036 |  ;
+           <-- Exiting UnsignedNumber
+          <-- Exiting UnsignedConstant
+         <-- Exiting Factor
+         --> Entering Mulop
+         <-- Exiting Mulop
+        <-- Exiting Term
+        --> Entering Addop
+        <-- Exiting Addop
+       <-- Exiting SimpleExpression
+0014 b := a
+        IDNT |  0050 |  b
+      <-- Exiting Factor
+      --> Entering Mulop
+      <-- Exiting Mulop
+     <-- Exiting Term
+     --> Entering Addop
+     <-- Exiting Addop
+    <-- Exiting SimpleExpression
+   <-- Exiting handleAssignment
+  <-- Exiting Statement
+ERROR: Expected end but found b
+ <-- Exiting Block
+ERROR: Expected . but found b
+<-- Exiting Program
+Done.

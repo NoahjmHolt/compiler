@@ -192,9 +192,11 @@ public class Syntactic {
         // call term at least once
         recur = Term();
         // then any number of times
-        while (token.code == lex.codeFor("ADD_") || token.code == lex.codeFor("SUBT")) {
-            token = lex.GetNextToken();
+        int addsub = Addop();
+        while (addsub == 0) {
+            //token = lex.GetNextToken();
             recur = Term();
+            addsub = Addop();
         }
 
         trace("SimpleExpression", false);
@@ -210,17 +212,15 @@ public class Syntactic {
         }
 
         trace("Term", true);
-        // check for sign
-        if (token.code == lex.codeFor("ADD_") || token.code == lex.codeFor("SUBT")) {
-            token = lex.GetNextToken();
-        }
 
         // call factor once
         recur = Factor();
         // then any number of other factors after mult op
-        while (token.code == lex.codeFor("MULT") || token.code == lex.codeFor("DIVD")) {
-            token = lex.GetNextToken();
+        int muldiv = Mulop();
+        while (muldiv == 0) {
+            //token = lex.GetNextToken();
             recur = Factor();
+            muldiv = Mulop();
         }
         trace("Term", false);
         return recur;
@@ -236,16 +236,83 @@ public class Syntactic {
 
         trace("Factor", true);
         if (token.code == lex.codeFor("IDNT")) {
-            token = lex.GetNextToken();
+            //token = lex.GetNextToken();
+            recur = Variable();
         } else if (token.code == lex.codeFor("INTC") || token.code == lex.codeFor("FLOT")) {
-            token = lex.GetNextToken();
+            recur = UnsignedConstant();
         } else {
             token = lex.GetNextToken();
             recur = SimpleExpression();
+            token = lex.GetNextToken();
         }
         trace("Factor", false);
         return recur;
     }
+
+
+    // <factor> => <ident> || <number> || <SimpleExpression>
+    private int UnsignedConstant() {
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("UnsignedConstant", true);
+        recur = UnsignedNumber();
+        trace("UnsignedConstant", false);
+        return recur;
+    }
+
+
+    // <factor> => <ident> || <number> || <SimpleExpression>
+    private int UnsignedNumber() {
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("UnsignedNumber", true);
+        if (token.code == lex.codeFor("INTC") || token.code == lex.codeFor("FLOT")) {
+            token = lex.GetNextToken();
+        }
+        trace("UnsignedNumber", false);
+        return recur;
+    }
+
+
+    private int Mulop() {
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("Mulop", true);
+        if (token.code == lex.codeFor("MULT") || token.code == lex.codeFor("DIVD")) {
+            token = lex.GetNextToken();
+        } else {
+            recur = -1;
+        }
+        trace("Mulop", false);
+        return recur;
+    }
+
+    private int Addop() {
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("Addop", true);
+        if (token.code == lex.codeFor("ADD_") || token.code == lex.codeFor("SUBT")) {
+            token = lex.GetNextToken();
+        } else {
+            recur = -1;
+        }
+        trace("Addop", false);
+        return recur;
+    }
+
+
 
     // Eventually this will handle all possible statement starts in
     //    a nested if/else or switch structure. Only ASSIGNMENT is implemented now.

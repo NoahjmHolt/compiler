@@ -1,0 +1,166 @@
+noah@noahs-MacBook-Pro holt_hw1_jar % java -jar holt_hw1.jar ../../../BadSyntax-1-A-SP24.txt
+noah holt, 0735, CS4100/5100, SPRING 2024
+INPUT FILE TO PROCESS IS: ../../../BadSyntax-1-A-SP24.txt
+0001
+0002 unit BadProg1;
+        unit |  0015 |  unit
+--> Entering Program
+        IDNT |  0050 |  BadProg1
+        endl |  0036 |  ;
+0003
+0004 (* This Part A test file should have one syntax error! *)
+0005
+0006 begin
+        begn |  0011 |  begin
+ --> Entering Block
+0007 { The only statements for Part A are ASSIGNMENTS with EXPRESSIONS }
+0008
+0009 sum:=(27*first)+ 3.14*radius*radius;
+        IDNT |  0050 |  sum
+  --> Entering Statement
+   --> Entering handleAssignment
+    --> Entering Variable
+        asgn |  0037 |  :=
+    <-- Exiting Variable
+        lfpr |  0034 |  (
+    --> Entering SimpleExpression
+     --> Entering Term
+      --> Entering Factor
+        INTC |  0051 |  27
+       --> Entering SimpleExpression
+        --> Entering Term
+         --> Entering Factor
+          --> Entering UnsignedConstant
+           --> Entering UnsignedNumber
+        mult |  0031 |  *
+           <-- Exiting UnsignedNumber
+          <-- Exiting UnsignedConstant
+         <-- Exiting Factor
+         --> Entering Mulop
+        IDNT |  0050 |  first
+         <-- Exiting Mulop
+         --> Entering Factor
+          --> Entering Variable
+        rtpr |  0035 |  )
+          <-- Exiting Variable
+         <-- Exiting Factor
+         --> Entering Mulop
+         <-- Exiting Mulop
+        <-- Exiting Term
+        --> Entering Addop
+        <-- Exiting Addop
+       <-- Exiting SimpleExpression
+        add_ |  0032 |  +
+      <-- Exiting Factor
+      --> Entering Mulop
+      <-- Exiting Mulop
+     <-- Exiting Term
+     --> Entering Addop
+        FLOT |  0052 |  3.14
+     <-- Exiting Addop
+     --> Entering Term
+      --> Entering Factor
+       --> Entering UnsignedConstant
+        --> Entering UnsignedNumber
+        mult |  0031 |  *
+        <-- Exiting UnsignedNumber
+       <-- Exiting UnsignedConstant
+      <-- Exiting Factor
+      --> Entering Mulop
+        IDNT |  0050 |  radius
+      <-- Exiting Mulop
+      --> Entering Factor
+       --> Entering Variable
+        mult |  0031 |  *
+       <-- Exiting Variable
+      <-- Exiting Factor
+      --> Entering Mulop
+        IDNT |  0050 |  radius
+      <-- Exiting Mulop
+      --> Entering Factor
+       --> Entering Variable
+        endl |  0036 |  ;
+       <-- Exiting Variable
+      <-- Exiting Factor
+      --> Entering Mulop
+      <-- Exiting Mulop
+     <-- Exiting Term
+     --> Entering Addop
+     <-- Exiting Addop
+    <-- Exiting SimpleExpression
+   <-- Exiting handleAssignment
+  <-- Exiting Statement
+0010
+0011 (* missing left paren below... where is it discovered? *)
+0012 a :=(a+c)*b-d)                ;
+        IDNT |  0050 |  a
+  --> Entering Statement
+   --> Entering handleAssignment
+    --> Entering Variable
+        asgn |  0037 |  :=
+    <-- Exiting Variable
+        lfpr |  0034 |  (
+    --> Entering SimpleExpression
+     --> Entering Term
+      --> Entering Factor
+        IDNT |  0050 |  a
+       --> Entering SimpleExpression
+        --> Entering Term
+         --> Entering Factor
+          --> Entering Variable
+        add_ |  0032 |  +
+          <-- Exiting Variable
+         <-- Exiting Factor
+         --> Entering Mulop
+         <-- Exiting Mulop
+        <-- Exiting Term
+        --> Entering Addop
+        IDNT |  0050 |  c
+        <-- Exiting Addop
+        --> Entering Term
+         --> Entering Factor
+          --> Entering Variable
+        rtpr |  0035 |  )
+          <-- Exiting Variable
+         <-- Exiting Factor
+         --> Entering Mulop
+         <-- Exiting Mulop
+        <-- Exiting Term
+        --> Entering Addop
+        <-- Exiting Addop
+       <-- Exiting SimpleExpression
+        mult |  0031 |  *
+      <-- Exiting Factor
+      --> Entering Mulop
+        IDNT |  0050 |  b
+      <-- Exiting Mulop
+      --> Entering Factor
+       --> Entering Variable
+        subt |  0033 |  -
+       <-- Exiting Variable
+      <-- Exiting Factor
+      --> Entering Mulop
+      <-- Exiting Mulop
+     <-- Exiting Term
+     --> Entering Addop
+        IDNT |  0050 |  d
+     <-- Exiting Addop
+     --> Entering Term
+      --> Entering Factor
+       --> Entering Variable
+        rtpr |  0035 |  )
+       <-- Exiting Variable
+      <-- Exiting Factor
+      --> Entering Mulop
+      <-- Exiting Mulop
+     <-- Exiting Term
+     --> Entering Addop
+     <-- Exiting Addop
+    <-- Exiting SimpleExpression
+   <-- Exiting handleAssignment
+  <-- Exiting Statement
+ERROR: Expected end but found )
+ <-- Exiting Block
+ERROR: Expected . but found )
+<-- Exiting Program
+Done.

@@ -324,9 +324,9 @@ public class Syntactic {
 
     //region Part B
 
-    
 
-    //endregion
+
+
 
 
     // Eventually this will handle all possible statement starts in
@@ -355,6 +355,8 @@ public class Syntactic {
         trace("Statement", false);
         return recur;
     }
+
+    //endregion
 
     //Non-terminal VARIABLE just looks for an IDENTIFIER.  Later, a
     //  type-check can verify compatible math ops, or if casting is required.

@@ -324,10 +324,46 @@ public class Syntactic {
 
     //region Part B
 
+    private int Variabledecsec(){
+
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("Variabledecsec", true);
+
+        trace("Variabledecsec", false);
+        return recur;
+    }
 
 
+    private int Simpletype(){
+
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("Simpletype", true);
+
+        trace("Simpletype", false);
+        return recur;
+    }
 
 
+    private int Blockbody(){
+
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("Blockbody", true);
+
+        trace("Blockbody", false);
+        return recur;
+    }
 
     // Eventually this will handle all possible statement starts in
     //    a nested if/else or switch structure. Only ASSIGNMENT is implemented now.
@@ -355,6 +391,112 @@ public class Syntactic {
         trace("Statement", false);
         return recur;
     }
+
+    //handleReadln
+    private int handleReadln(){
+
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("handleReadln", true);
+
+        trace("handleReadln", false);
+        return recur;
+    }
+
+
+    //handleAssignment is already here (cmd f)
+
+    //handleFor
+    private int handleFor(){
+
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("handleFor", true);
+
+        trace("handleFor", false);
+        return recur;
+    }
+
+
+    //handleIf
+    private int handleIf(){
+
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("handleIf", true);
+
+        trace("handleIf", false);
+        return recur;
+    }
+
+
+    //Relop
+    private int Relop(){
+
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("Relop", true);
+
+        trace("Relop", false);
+        return recur;
+    }
+
+
+    //handleWhile
+    private int handleWhile(){
+
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("handleWhile", true);
+
+        trace("handleWhile", false);
+        return recur;
+    }
+
+    //Relexpression
+    private int Relexpression(){
+
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("Relexpression", true);
+
+        trace("Relexpression", false);
+        return recur;
+    }
+
+
+    //handlePrintln
+    private int handlePrintln(){
+
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("handlePrintln", true);
+
+        trace("handlePrintln", false);
+        return recur;
+    }
+
 
     //endregion
 

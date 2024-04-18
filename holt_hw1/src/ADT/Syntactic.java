@@ -121,6 +121,7 @@ public class Syntactic {
     }
 
     //Non Terminal BLOCK is fully implemented here.
+    // Will need to adjust a bit for part B
     private int Block() {
         int recur = 0;
         if (anyErrors) {
@@ -151,6 +152,7 @@ public class Syntactic {
 
     //Not a Non Terminal, but used to shorten Statement code body for readability.
     //<variable> $COLON-EQUALS <simple expression>
+    // Now a part of part B
     private int handleAssignment() {
         int recur = 0;
         if (anyErrors) {
@@ -324,6 +326,8 @@ public class Syntactic {
 
     //region Part B
 
+    //Variabledecsec
+    // $VAR <variable-declaration>
     private int Variabledecsec(){
 
         int recur = 0;
@@ -338,6 +342,24 @@ public class Syntactic {
     }
 
 
+    //Variabledeclaration
+    // {<identifier> {$COMMA <identifier>}* $COLON <simple type> $SEMICOLON}+
+    private int Variabledeclaration(){
+
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("Variabledeclaration", true);
+
+        trace("Variabledeclaration", false);
+        return recur;
+    }
+
+
+    //SimpleType
+    // $INTEGER | $FLOAT | $STRING
     private int Simpletype(){
 
         int recur = 0;
@@ -367,6 +389,8 @@ public class Syntactic {
 
     // Eventually this will handle all possible statement starts in
     //    a nested if/else or switch structure. Only ASSIGNMENT is implemented now.
+    //
+    // Look at given notes for this, it is a lot
     private int Statement() {
         int recur = 0;
         if (anyErrors) {
@@ -440,6 +464,7 @@ public class Syntactic {
 
 
     //Relop
+    // $EQ | $LSS | $GTR | $NEQ | $LEQ | $GEQ
     private int Relop(){
 
         int recur = 0;
@@ -469,6 +494,7 @@ public class Syntactic {
     }
 
     //Relexpression
+    // <simple expression> <relop> <simple expression>
     private int Relexpression(){
 
         int recur = 0;
@@ -496,6 +522,40 @@ public class Syntactic {
         trace("handlePrintln", false);
         return recur;
     }
+
+
+    //identifier
+    // $IDENTIFIER  code = 50
+    // **note: <letter> {<letter> |<digit> | $ | _ }*
+    private int identifier(){
+
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("identifier", true);
+
+        trace("identifier", false);
+        return recur;
+    }
+
+
+    //stringconst
+    // $STRINGTYPE code = 53
+    private int stringconst(){
+
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("stringconst", true);
+
+        trace("stringconst", false);
+        return recur;
+    }
+
 
 
     //endregion

@@ -36,6 +36,7 @@ package ADT;
 /**
  *
  * @author abrouill
+ * @editor nholt
  */
 public class Syntactic {
 
@@ -48,6 +49,8 @@ public class Syntactic {
     private boolean anyErrors;          //Set TRUE if an error happens 
 
     private final int symbolSize = 250;
+
+    //region Given
 
     public Syntactic(String filename, boolean traceOn) {
         filein = filename;
@@ -168,12 +171,16 @@ public class Syntactic {
         return recur;
     }
 
+    //endregion
+
     // NonTerminal This is dummied in to only work for an identifier.
     //  It will work with the SyntaxAMiniTest file having ASSIGNMENT statements
     //     containing only IDENTIFIERS.  TERM and FACTOR and numbers will be
     //     needed to complete Part A.
     // SimpleExpression MUST BE
     //  COMPLETED TO IMPLEMENT CFG for <simple expression>
+
+    //region Part A
 
     // <SimpleExpression> => [<sign>] <term> [ <addop> <term]*
     private int SimpleExpression() {
@@ -312,6 +319,14 @@ public class Syntactic {
         return recur;
     }
 
+    //endregion
+
+
+    //region Part B
+
+    
+
+    //endregion
 
 
     // Eventually this will handle all possible statement starts in

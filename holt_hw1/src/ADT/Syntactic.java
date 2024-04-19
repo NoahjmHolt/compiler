@@ -568,7 +568,7 @@ public class Syntactic {
     }
 
     //16 functions to edit and/or write
-    //progress count 0 / 16
+    //progress count 1 / 16
 
     //endregion
 

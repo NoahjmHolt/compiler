@@ -255,8 +255,11 @@ public class Lexical {
         mnemonics.Add("ENDL", 36);
         mnemonics.Add("ASGN", 37);
         mnemonics.Add("GRTR", 38);
+        mnemonics.Add("LESS", 39);
+        mnemonics.Add("GREQ", 40);
         mnemonics.Add("LSEQ", 41);
         mnemonics.Add("EQUL", 42);
+        mnemonics.Add("NTEQ", 43);
 
         mnemonics.Add("COMA", 44);
         mnemonics.Add("LFBR", 45);

@@ -478,7 +478,11 @@ public class Syntactic {
         }
 
         trace("Relop", true);
-
+        if (token.code >= 38 && token.code <= 42) {
+            token = lex.GetNextToken();
+        } else {
+            recur = -1;
+        }
         trace("Relop", false);
         return recur;
     }

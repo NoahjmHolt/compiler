@@ -295,13 +295,13 @@ public class Syntactic {
             return -1;
         }
 
-        trace("Mulop", true);
+        //trace("Mulop", true);
         if (token.code == lex.codeFor("MULT") || token.code == lex.codeFor("DIVD")) {
             token = lex.GetNextToken();
         } else {
             recur = -1;
         }
-        trace("Mulop", false);
+        //trace("Mulop", false);
         return recur;
     }
 
@@ -311,13 +311,13 @@ public class Syntactic {
             return -1;
         }
 
-        trace("Addop", true);
+        //trace("Addop", true);
         if (token.code == lex.codeFor("ADD_") || token.code == lex.codeFor("SUBT")) {
             token = lex.GetNextToken();
         } else {
             recur = -1;
         }
-        trace("Addop", false);
+        //trace("Addop", false);
         return recur;
     }
 
@@ -351,9 +351,9 @@ public class Syntactic {
             return -1;
         }
 
-        trace("Variabledeclaration", true);
+        //trace("Variabledeclaration", true);
 
-        trace("Variabledeclaration", false);
+        //trace("Variabledeclaration", false);
         return recur;
     }
 
@@ -374,6 +374,8 @@ public class Syntactic {
     }
 
 
+    //Blockbody
+    //
     private int Blockbody(){
 
         int recur = 0;
@@ -417,6 +419,7 @@ public class Syntactic {
     }
 
     //handleReadln
+    //
     private int handleReadln(){
 
         int recur = 0;
@@ -434,6 +437,7 @@ public class Syntactic {
     //handleAssignment is already here (cmd f)
 
     //handleFor
+    //
     private int handleFor(){
 
         int recur = 0;
@@ -449,6 +453,7 @@ public class Syntactic {
 
 
     //handleIf
+    //
     private int handleIf(){
 
         int recur = 0;
@@ -480,6 +485,7 @@ public class Syntactic {
 
 
     //handleWhile
+    //
     private int handleWhile(){
 
         int recur = 0;
@@ -510,6 +516,7 @@ public class Syntactic {
 
 
     //handlePrintln
+    //
     private int handlePrintln(){
 
         int recur = 0;
@@ -534,9 +541,9 @@ public class Syntactic {
             return -1;
         }
 
-        trace("identifier", true);
+        //trace("identifier", true);
 
-        trace("identifier", false);
+        //trace("identifier", false);
         return recur;
     }
 
@@ -550,9 +557,9 @@ public class Syntactic {
             return -1;
         }
 
-        trace("stringconst", true);
+        //trace("stringconst", true);
 
-        trace("stringconst", false);
+        //trace("stringconst", false);
         return recur;
     }
 

@@ -129,22 +129,7 @@ public class Syntactic {
         }
         trace("Block", true);
 
-        if (token.code == lex.codeFor("BEGN")) {
-            token = lex.GetNextToken();
-            recur = Statement();
-            while ((token.code == lex.codeFor("ENDL")) && (!lex.EOF()) && (!anyErrors)) {
-                token = lex.GetNextToken();
-                recur = Statement();
-            }
-            if (token.code == lex.codeFor("END_")) {
-                token = lex.GetNextToken();
-            } else {
-                error(lex.reserveFor("END_"), token.lexeme);
-            }
 
-        } else {
-            error(lex.reserveFor("BEGN"), token.lexeme);
-        }
 
         trace("Block", false);
         return recur;
@@ -384,7 +369,22 @@ public class Syntactic {
         }
 
         trace("Blockbody", true);
+        if (token.code == lex.codeFor("BEGN")) {
+            token = lex.GetNextToken();
+            recur = Statement();
+            while ((token.code == lex.codeFor("ENDL")) && (!lex.EOF()) && (!anyErrors)) {
+                token = lex.GetNextToken();
+                recur = Statement();
+            }
+            if (token.code == lex.codeFor("END_")) {
+                token = lex.GetNextToken();
+            } else {
+                error(lex.reserveFor("END_"), token.lexeme);
+            }
 
+        } else {
+            error(lex.reserveFor("BEGN"), token.lexeme);
+        }
         trace("Blockbody", false);
         return recur;
     }
@@ -568,7 +568,7 @@ public class Syntactic {
     }
 
     //16 functions to edit and/or write
-    //progress count 1 / 16
+    //progress count 2 / 16
 
     //endregion
 

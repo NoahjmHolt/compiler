@@ -556,6 +556,11 @@ public class Syntactic {
 
         //trace("identifier", true);
 
+        if (token.code != lex.codeFor("IDNT")){
+            recur = -1;
+        }
+        token = lex.GetNextToken();
+
         //trace("identifier", false);
         return recur;
     }
@@ -583,7 +588,7 @@ public class Syntactic {
 
     //
     //16 functions to edit and/or write
-    //progress count 4 / 16
+    //progress count 4 / 15
     //
 
     /**

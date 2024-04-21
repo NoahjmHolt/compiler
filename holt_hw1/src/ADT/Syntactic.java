@@ -523,9 +523,15 @@ public class Syntactic {
 
         trace("Relexpression", true);
 
-        SimpleExpression();
-        Relop();
-        SimpleExpression();
+        recur = SimpleExpression();
+
+        if (recur != -1) {
+            Relop();
+        }
+
+        if (recur != -1) {
+            SimpleExpression();
+        }
 
         trace("Relexpression", false);
         return recur;

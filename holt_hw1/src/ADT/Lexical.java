@@ -209,6 +209,11 @@ public class Lexical {
         reserveWords.Add(":", 47);
         reserveWords.Add(".", 48);
 
+        reserveWords.Add("INDENTIFY", 50);
+        reserveWords.Add("INTEGERCONST", 51);
+        reserveWords.Add("FLOAT", 52);
+        reserveWords.Add("STRING", 53);
+
         // all else
         reserveWords.Add("UNKN", 99);
 

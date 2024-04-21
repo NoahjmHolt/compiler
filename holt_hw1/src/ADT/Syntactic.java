@@ -344,7 +344,7 @@ public class Syntactic {
 
     //Variabledeclaration
     // {<identifier> {$COMMA <identifier>}* $COLON <simple type> $SEMICOLON}+
-    private int Variabledeclaration(){
+    private int Variabledeclaration() {
 
         int recur = 0;
         if (anyErrors) {
@@ -358,7 +358,7 @@ public class Syntactic {
         // {$COMMA <identifier>}*
         if (recur == 0) {
 
-            while (token.code == lex.codeFor("COMA")){
+            while (token.code == lex.codeFor("COMA")) {
                 token = lex.GetNextToken();
                 identifier();
             }
@@ -370,18 +370,18 @@ public class Syntactic {
         // $COLON <simple type> $SEMICOLON}+
         // $COLON = COLN
         // $SEMICOLON = ENDL
-        if (token.code == lex.codeFor("COLN")) {
-            token = lex.GetNextToken();
-        } else {
-            return -1;
-        }
-
-        // will go min once if colon before
         while (recur == 0) {
-            recur = Simpletype();
-            if (token.code == lex.codeFor("ENDL")) {
+            if (token.code == lex.codeFor("COLN")) {
                 token = lex.GetNextToken();
             } else {
+                return -1;
+            }
+
+            // will go min once if colon before
+
+            recur = Simpletype();
+            token = lex.GetNextToken();
+            if (token.code != lex.codeFor("ENDL")) {
                 recur = -1;
             }
 
@@ -403,7 +403,7 @@ public class Syntactic {
 
         trace("Simpletype", true);
 
-        if (token.code != lex.codeFor("INTC") && token.code != lex.codeFor("FLOT") && token.code != lex.codeFor("STRG")){
+        if (token.code != lex.codeFor("INTR") && token.code != lex.codeFor("INTC") && token.code != lex.codeFor("FLOT") && token.code != lex.codeFor("STRG")){
             recur = -1;
         }
         token = lex.GetNextToken();
@@ -486,6 +486,9 @@ public class Syntactic {
                 token = lex.GetNextToken();
                 recur = handleReadln();
 
+            } else if (token.code == lex.codeFor("ENDL")) {
+                token = lex.GetNextToken();
+                return 0;
             } else {
                 error("Statement start", token.lexeme);
                 recur = -1;
@@ -525,6 +528,15 @@ public class Syntactic {
             error("Need to strat with right parenthesis", token.lexeme);
             return -1;
         }
+
+        //end line after done
+        if (token.code == lex.codeFor("ENDL")){
+            token = lex.GetNextToken();
+        } else {
+            error("End Line with semicolon", token.lexeme);
+            return -1;
+        }
+
 
         trace("handleReadln", false);
         return recur;

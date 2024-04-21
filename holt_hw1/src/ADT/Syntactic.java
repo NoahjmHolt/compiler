@@ -508,6 +508,24 @@ public class Syntactic {
 
         trace("handleReadln", true);
 
+        // Format: (IDNT)
+        if (token.code == lex.codeFor("LFPR")){
+            token = lex.GetNextToken();
+            // READ SOMETHING HERE
+            recur = identifier();
+        } else {
+            error("Need to strat with left parenthesis", token.lexeme);
+            return -1;
+        }
+
+        // finish with )
+        if (token.code == lex.codeFor("RTPR")){
+            token = lex.GetNextToken();
+        } else {
+            error("Need to strat with right parenthesis", token.lexeme);
+            return -1;
+        }
+
         trace("handleReadln", false);
         return recur;
     }
@@ -619,12 +637,37 @@ public class Syntactic {
 
         trace("handlePrintln", true);
 
+        // Format: (IDNT)
+        if (token.code == lex.codeFor("LFPR")){
+            token = lex.GetNextToken();
+            // PRINT SOMETHING HERE (ie  (<simple expression> | <identifier> | <stringconst>)  )
+            if (token.code == lex.codeFor("IDNT")){
+                recur = identifier();
+            } else if (token.code == lex.codeFor("STRG")) {
+                recur = stringconst();
+            } else {
+                recur = SimpleExpression();
+            }
+
+        } else {
+            error("Need to strat with left parenthesis", token.lexeme);
+            return -1;
+        }
+
+        // finish with )
+        if (token.code == lex.codeFor("RTPR")){
+            token = lex.GetNextToken();
+        } else {
+            error("Need to strat with right parenthesis", token.lexeme);
+            return -1;
+        }
+
         trace("handlePrintln", false);
         return recur;
     }
 
 
-    //handlePrintln
+    //handleRepeat
     //
     private int handleRepeat(){
 
@@ -684,7 +727,7 @@ public class Syntactic {
 
     //
     //16 functions to edit and/or write
-    //progress count 9 / 15
+    //progress count 12 / 16
     //
 
     /**

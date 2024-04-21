@@ -575,6 +575,7 @@ public class Syntactic {
         if (token.code != lex.codeFor("STRG")){
             recur = -1;
         }
+        token = lex.GetNextToken();
 
         //trace("stringconst", false);
         return recur;

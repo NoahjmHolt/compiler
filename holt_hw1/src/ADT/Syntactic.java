@@ -129,7 +129,15 @@ public class Syntactic {
         }
         trace("Block", true);
 
+        while (token.code == lex.codeFor("$VAR")) {
+            recur = Variabledecsec();
+        }
 
+        if (anyErrors) {
+            return -1;
+        } else {
+            recur = Blockbody();
+        }
 
         trace("Block", false);
         return recur;
@@ -360,7 +368,8 @@ public class Syntactic {
 
 
     //Blockbody
-    //
+    // This is the old block func
+    // changed the old and replaced to call this later
     private int Blockbody(){
 
         int recur = 0;
@@ -563,14 +572,27 @@ public class Syntactic {
 
         //trace("stringconst", true);
 
+        if (token.code != lex.codeFor("STRG")){
+            recur = -1;
+        }
+
         //trace("stringconst", false);
         return recur;
     }
 
+    //
     //16 functions to edit and/or write
-    //progress count 2 / 16
+    //progress count 4 / 16
+    //
+
+    /**
+     * *************************************************
+     */
 
     //endregion
+
+
+
 
     //Non-terminal VARIABLE just looks for an IDENTIFIER.  Later, a
     //  type-check can verify compatible math ops, or if casting is required.

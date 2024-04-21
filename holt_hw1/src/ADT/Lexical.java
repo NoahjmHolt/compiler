@@ -231,7 +231,7 @@ public class Lexical {
         mnemonics.Add("RDIN", 10);
         mnemonics.Add("BEGN", 11);
         mnemonics.Add("END_", 12);
-        mnemonics.Add("VAR", 13);
+        mnemonics.Add("$VAR", 13);
         mnemonics.Add("WHIL", 14);
         mnemonics.Add("UNIT", 15);
         mnemonics.Add("LABL", 16);

@@ -330,6 +330,13 @@ public class Syntactic {
 
         trace("Variabledecsec", true);
 
+        if (token.code == lex.codeFor("$VAR")){
+            token = lex.GetNextToken();
+            recur = Variabledeclaration();
+        } else{
+            recur = -1;
+        }
+
         trace("Variabledecsec", false);
         return recur;
     }
@@ -598,7 +605,7 @@ public class Syntactic {
 
     //
     //16 functions to edit and/or write
-    //progress count 4 / 15
+    //progress count 7 / 15
     //
 
     /**

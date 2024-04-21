@@ -523,6 +523,10 @@ public class Syntactic {
 
         trace("Relexpression", true);
 
+        SimpleExpression();
+        Relop();
+        SimpleExpression();
+
         trace("Relexpression", false);
         return recur;
     }

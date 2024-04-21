@@ -526,11 +526,11 @@ public class Syntactic {
         recur = SimpleExpression();
 
         if (recur != -1) {
-            Relop();
+            recur = Relop();
         }
 
         if (recur != -1) {
-            SimpleExpression();
+            recur = SimpleExpression();
         }
 
         trace("Relexpression", false);

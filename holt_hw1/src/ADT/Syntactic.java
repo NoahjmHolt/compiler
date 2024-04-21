@@ -71,7 +71,7 @@ public class Syntactic {
         recur = Program();
     }
 
-    //Non Terminal PROGIDENTIFIER is fully implemented here, leave it as-is.
+    //Non-Terminal PROG IDENTIFIER is fully implemented here, leave it as-is.
     private int ProgIdentifier() {
         int recur = 0;
         if (anyErrors) {
@@ -353,6 +353,40 @@ public class Syntactic {
 
         //trace("Variabledeclaration", true);
 
+        recur = identifier();
+
+        // {$COMMA <identifier>}*
+        if (recur == 0) {
+
+            while (token.code == lex.codeFor("COMA")){
+                token = lex.GetNextToken();
+                identifier();
+            }
+
+        } else { //not valid Ident
+            recur = -1;
+        }
+
+        // $COLON <simple type> $SEMICOLON}+
+        // $COLON = COLN
+        // $SEMICOLON = ENDL
+        if (token.code == lex.codeFor("COLN")) {
+            token = lex.GetNextToken();
+        } else {
+            return -1;
+        }
+
+        // will go min once if colon before
+        while (recur == 0) {
+            recur = Simpletype();
+            if (token.code == lex.codeFor("ENDL")) {
+                token = lex.GetNextToken();
+            } else {
+                recur = -1;
+            }
+
+        }
+
         //trace("Variabledeclaration", false);
         return recur;
     }
@@ -368,6 +402,10 @@ public class Syntactic {
         }
 
         trace("Simpletype", true);
+
+        if (token.code != lex.codeFor("INTC") && token.code != lex.codeFor("FLOT") && token.code != lex.codeFor("STRG")){
+            recur = -1;
+        }
 
         trace("Simpletype", false);
         return recur;
@@ -605,7 +643,7 @@ public class Syntactic {
 
     //
     //16 functions to edit and/or write
-    //progress count 7 / 15
+    //progress count 9 / 15
     //
 
     /**

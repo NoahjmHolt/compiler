@@ -456,17 +456,41 @@ public class Syntactic {
 
         trace("Statement", true);
 
-        if (token.code == lex.codeFor("IDNT")) {  //must be an ASSIGNMENT
-            recur = handleAssignment();
-        } else {
-            if (token.code == lex.codeFor("_IF_")) {  //must be an IF
-                // this would handle the rest of the IF statment IN PART B
-            } else
-            // if/elses should look for the other possible statement starts...
-            //  but not until PART B
-            {
+        //
+        while (recur == 0){
+
+            if (token.code == lex.codeFor("IDNT")) { // <var> assign do (stuff
+                recur = handleAssignment();
+
+            } else if (token.code == lex.codeFor("_IF_")) { // $If call handle if
+                token = lex.GetNextToken();
+                recur = handleIf();
+
+            } else if (token.code == lex.codeFor("WHIL")) { // $WHILE call handle while
+                token = lex.GetNextToken();
+                recur = handleWhile();
+
+            } else if (token.code == lex.codeFor("REPT")) { // $REPEAT handleRepeat
+                token = lex.GetNextToken();
+                recur = handleRepeat();
+
+            } else if (token.code == lex.codeFor("_FOR")) { // $For handle for
+                token = lex.GetNextToken();
+                recur = handleFor();
+
+            } else if (token.code == lex.codeFor("WRLN")) { // $WriteLn Println
+                token = lex.GetNextToken();
+                recur = handlePrintln();
+
+            } else if (token.code == lex.codeFor("READ")) { // $ReadLn handleReadLn
+                token = lex.GetNextToken();
+                recur = handleReadln();
+
+            } else {
                 error("Statement start", token.lexeme);
+                recur = -1;
             }
+
         }
 
         trace("Statement", false);
@@ -600,6 +624,22 @@ public class Syntactic {
     }
 
 
+    //handlePrintln
+    //
+    private int handleRepeat(){
+
+        int recur = 0;
+        if (anyErrors) {
+            return -1;
+        }
+
+        trace("handleRepeat", true);
+
+        trace("handleRepeat", false);
+        return recur;
+    }
+
+
     //identifier
     // $IDENTIFIER  code = 50
     // **note: <letter> {<letter> |<digit> | $ | _ }*
@@ -656,7 +696,7 @@ public class Syntactic {
 
 
 
-    //Non-terminal VARIABLE just looks for an IDENTIFIER.  Later, a
+    //Non-terminal just looks for an IDENTIFIER.  Later, a
     //  type-check can verify compatible math ops, or if casting is required.
     private int Variable(){
         int recur = 0;

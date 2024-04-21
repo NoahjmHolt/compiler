@@ -171,7 +171,7 @@ public class Lexical {
         reserveWords.Add("FOR", 7);
         reserveWords.Add("OF", 8);
         reserveWords.Add("WRITELN", 9);
-        reserveWords.Add("READIN", 10);
+        reserveWords.Add("READLN", 10);
         reserveWords.Add("BEGIN", 11);
         reserveWords.Add("END", 12);
         reserveWords.Add("VAR", 13);
@@ -228,7 +228,7 @@ public class Lexical {
         mnemonics.Add("_FOR", 7);
         mnemonics.Add("_OF_", 8);
         mnemonics.Add("WRLN", 9);
-        mnemonics.Add("RDIN", 10);
+        mnemonics.Add("READ", 10);
         mnemonics.Add("BEGN", 11);
         mnemonics.Add("END_", 12);
         mnemonics.Add("$VAR", 13);

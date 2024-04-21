@@ -406,6 +406,7 @@ public class Syntactic {
         if (token.code != lex.codeFor("INTC") && token.code != lex.codeFor("FLOT") && token.code != lex.codeFor("STRG")){
             recur = -1;
         }
+        token = lex.GetNextToken();
 
         trace("Simpletype", false);
         return recur;

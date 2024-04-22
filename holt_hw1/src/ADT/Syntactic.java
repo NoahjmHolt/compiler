@@ -492,10 +492,13 @@ public class Syntactic {
             } else if (token.code == lex.codeFor("BEGN")) {
                 recur = Blockbody();
 
-            }else if (token.code == lex.codeFor("END_")) {
+            } else if (token.code == lex.codeFor("END_")) {
                 recur = -1;
 
-            } else {
+            }  else if (token.code == lex.codeFor("UNTL")) {
+                recur = -1;
+
+            }else {
                 error("Statement start", token.lexeme);
                 return  -1;
             }
@@ -593,7 +596,7 @@ public class Syntactic {
 
 
     //handleIf
-    //
+    // <relexpression> $THEN <statement> [$ELSE <statement>]
     private int handleIf(){
 
         int recur = 0;
@@ -602,6 +605,23 @@ public class Syntactic {
         }
 
         trace("handleIf", true);
+
+        recur = Relexpression();
+
+        if (token.code == lex.codeFor("THEN") && recur != -1){
+            token = lex.GetNextToken();
+            recur = Statement();
+
+            if (token.code == lex.codeFor("ELSE") && recur != -1){
+                token = lex.GetNextToken();
+                recur = Statement();
+            } else {
+                error("Else wanted", token.lexeme);
+            }
+
+        } else {
+            error("Then wanted", token.lexeme);
+        }
 
         trace("handleIf", false);
         return recur;
@@ -792,7 +812,7 @@ public class Syntactic {
 
     //
     //16 functions to edit and/or write
-    //progress count 14 / 16
+    //progress count 15 / 16
     //
 
     /**

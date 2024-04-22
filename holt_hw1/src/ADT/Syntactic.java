@@ -546,7 +546,8 @@ public class Syntactic {
     //handleAssignment is already here (cmd f)
 
     //handleFor
-    //
+    // <variable> $ASSIGN <simple expression>
+    // $TO <simple expression> $DO <statement>
     private int handleFor(){
 
         int recur = 0;
@@ -555,6 +556,28 @@ public class Syntactic {
         }
 
         trace("handleFor", true);
+
+        recur = Variable();
+        if (token.code == lex.codeFor("ASGN")){
+            token = lex.GetNextToken();
+            recur = SimpleExpression();
+        } else {
+            error("Assignment expected", token.lexeme);
+        }
+
+        if (token.code == lex.codeFor("_TO_")){
+            token = lex.GetNextToken();
+            recur = SimpleExpression();
+        } else {
+            error("TO expected", token.lexeme);
+        }
+
+        if (token.code == lex.codeFor("_DO_")){
+            token = lex.GetNextToken();
+            recur = Statement();
+        } else {
+            error("DO expected", token.lexeme);
+        }
 
         trace("handleFor", false);
         return recur;
@@ -598,7 +621,7 @@ public class Syntactic {
 
 
     //handleWhile
-    //
+    // <relexpression> DO <statement>
     private int handleWhile(){
 
         int recur = 0;
@@ -607,6 +630,14 @@ public class Syntactic {
         }
 
         trace("handleWhile", true);
+
+        recur = Relexpression();
+        if (token.code == lex.codeFor("_DO_")) {
+            token = lex.GetNextToken();
+            recur = Statement();
+        } else {
+            error("No do found", token.lexeme);
+        }
 
         trace("handleWhile", false);
         return recur;
@@ -752,7 +783,7 @@ public class Syntactic {
 
     //
     //16 functions to edit and/or write
-    //progress count 13 / 16
+    //progress count 14 / 16
     //
 
     /**

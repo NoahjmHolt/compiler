@@ -488,13 +488,21 @@ public class Syntactic {
 
             } else if (token.code == lex.codeFor("ENDL")) {
                 token = lex.GetNextToken();
-                return 0;
+
+            } else if (token.code == lex.codeFor("BEGN")) {
+                recur = Blockbody();
+
+            }else if (token.code == lex.codeFor("END_")) {
+                recur = -1;
+
             } else {
                 error("Statement start", token.lexeme);
-                recur = -1;
+                return  -1;
             }
 
         }
+
+        recur = 0;
 
         trace("Statement", false);
         return recur;
@@ -734,6 +742,7 @@ public class Syntactic {
 
         }
 
+        token = lex.GetNextToken();
         trace("handleRepeat", false);
         return recur;
     }

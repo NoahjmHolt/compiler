@@ -12,8 +12,9 @@ public class main {
         String filePath = args[0];
         boolean traceon = true;
         System.out.println("noah holt, 0735, CS4100/5100, SPRING 2024");
-        System.out.println("INPUT FILE TO PROCESS IS: "+filePath);
+        //System.out.println("INPUT FILE TO PROCESS IS: "+filePath);
 
+        //Syntactic parser = new Syntactic("../../../SyntaxB-GOOD-SP24.txt", traceon);
         Syntactic parser = new Syntactic(filePath, traceon);
         parser.parse();
         System.out.println("Done.");

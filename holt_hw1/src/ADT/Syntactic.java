@@ -690,6 +690,19 @@ public class Syntactic {
 
         trace("handleRepeat", true);
 
+        boolean keepGoing = true;
+        while (keepGoing){
+
+            recur = Statement();
+
+            if (token.code == lex.codeFor("UNTL")){
+                token = lex.GetNextToken();
+                recur = Relexpression();
+                keepGoing = false;
+            }
+
+        }
+
         trace("handleRepeat", false);
         return recur;
     }
@@ -739,7 +752,7 @@ public class Syntactic {
 
     //
     //16 functions to edit and/or write
-    //progress count 12 / 16
+    //progress count 13 / 16
     //
 
     /**

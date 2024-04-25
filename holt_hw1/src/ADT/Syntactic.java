@@ -457,33 +457,27 @@ public class Syntactic {
         trace("Statement", true);
 
         //
-        while (recur == 0){
+
 
             if (token.code == lex.codeFor("IDNT")) { // <var> assign do (stuff
                 recur = handleAssignment();
 
             } else if (token.code == lex.codeFor("_IF_")) { // $If call handle if
-                token = lex.GetNextToken();
                 recur = handleIf();
 
             } else if (token.code == lex.codeFor("WHIL")) { // $WHILE call handle while
-                token = lex.GetNextToken();
                 recur = handleWhile();
 
             } else if (token.code == lex.codeFor("REPT")) { // $REPEAT handleRepeat
-                token = lex.GetNextToken();
                 recur = handleRepeat();
 
             } else if (token.code == lex.codeFor("_FOR")) { // $For handle for
-                token = lex.GetNextToken();
                 recur = handleFor();
 
             } else if (token.code == lex.codeFor("WRLN")) { // $WriteLn Println
-                token = lex.GetNextToken();
                 recur = handlePrintln();
 
             } else if (token.code == lex.codeFor("READ")) { // $ReadLn handleReadLn
-                token = lex.GetNextToken();
                 recur = handleReadln();
 
             } else if (token.code == lex.codeFor("ENDL")) {
@@ -503,7 +497,7 @@ public class Syntactic {
                 return  -1;
             }
 
-        }
+
 
         recur = 0;
 
@@ -521,6 +515,7 @@ public class Syntactic {
         }
 
         trace("handleReadln", true);
+        token = lex.GetNextToken();
 
         // Format: (IDNT)
         if (token.code == lex.codeFor("LFPR")){
@@ -542,7 +537,7 @@ public class Syntactic {
 
         //end line after done
         if (token.code == lex.codeFor("ENDL")){
-            token = lex.GetNextToken();
+            //thats good
         } else {
             error("End Line with semicolon", token.lexeme);
             return -1;
@@ -567,6 +562,7 @@ public class Syntactic {
         }
 
         trace("handleFor", true);
+        token = lex.GetNextToken();
 
         recur = Variable();
         if (token.code == lex.codeFor("ASGN")){
@@ -605,6 +601,7 @@ public class Syntactic {
         }
 
         trace("handleIf", true);
+        token = lex.GetNextToken();
 
         recur = Relexpression();
 
@@ -658,6 +655,7 @@ public class Syntactic {
         }
 
         trace("handleWhile", true);
+        token = lex.GetNextToken();
 
         recur = Relexpression();
         if (token.code == lex.codeFor("_DO_")) {
@@ -707,6 +705,7 @@ public class Syntactic {
         }
 
         trace("handlePrintln", true);
+        token = lex.GetNextToken();
 
         // Format: (IDNT)
         if (token.code == lex.codeFor("LFPR")){
@@ -748,6 +747,7 @@ public class Syntactic {
         }
 
         trace("handleRepeat", true);
+        token = lex.GetNextToken();
 
         boolean keepGoing = true;
         while (keepGoing){

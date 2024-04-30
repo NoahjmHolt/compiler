@@ -482,6 +482,7 @@ public class Syntactic {
 
             } else if (token.code == lex.codeFor("ENDL")) {
                 token = lex.GetNextToken();
+                recur = -1;
 
             } else if (token.code == lex.codeFor("BEGN")) {
                 recur = Blockbody();

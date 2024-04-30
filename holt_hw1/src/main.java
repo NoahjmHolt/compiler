@@ -1,23 +1,18 @@
-
+//import ADT.SymbolTable;
+//import ADT.Lexical;
 import ADT.*;
-
 /**
  *
- * @author abrouill SPRING 2024
- *  implimented by nholt
+ * @author nholt SP2024
  */
 public class main {
-
     public static void main(String[] args) {
         String filePath = args[0];
-        boolean traceon = true;
-        System.out.println("noah holt, 0735, CS4100/5100, SPRING 2024");
-        //System.out.println("INPUT FILE TO PROCESS IS: "+filePath);
-
-        //Syntactic parser = new Syntactic("../../../SyntaxB-GOOD-SP24.txt", traceon);
+        System.out.println("Code Generation SP 2024, by <Student Name>");
+        System.out.println("Parsing "+filePath);
+        boolean traceon = false; //true;// false;
         Syntactic parser = new Syntactic(filePath, traceon);
         parser.parse();
         System.out.println("Done.");
     }
-
 }

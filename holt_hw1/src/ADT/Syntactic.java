@@ -516,9 +516,6 @@ public class Syntactic {
             } else if (token.code == lex.codeFor("WHIL")) { // $WHILE call handle while
                 recur = handleWhile();
 
-            } else if (token.code == lex.codeFor("REPT")) { // $REPEAT handleRepeat
-                recur = handleRepeat();
-
             } else if (token.code == lex.codeFor("_FOR")) { // $For handle for
                 recur = handleFor();
 
@@ -538,15 +535,10 @@ public class Syntactic {
             } else if (token.code == lex.codeFor("END_")) {
                 recur = -1;
 
-            }  else if (token.code == lex.codeFor("UNTL")) {
-                recur = -1;
-
             }else {
                 error("Statement start", token.lexeme);
                 return  -1;
             }
-
-
 
         recur = 0;
 

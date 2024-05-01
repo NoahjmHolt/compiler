@@ -50,6 +50,13 @@ public class Syntactic {
 
     private final int symbolSize = 250;
 
+    //new
+    private final int quadSize = 1000;
+    private int Minus1Index;
+    private int Plus1Index;
+    private QuadTable quads;
+    private Interpreter interp;
+
     //region Given
 
     public Syntactic(String filename, boolean traceOn) {
@@ -59,7 +66,51 @@ public class Syntactic {
         lex = new Lexical(filein, symbolList, true);
         lex.setPrintToken(traceOn);
         anyErrors = false;
+
+        //
+        // Add these to symbol table to accommodate sign flips
+        //
+        Minus1Index = symbolList.AddSymbol("-1", symbolList.constantkind, -1);
+        Plus1Index = symbolList.AddSymbol("1", symbolList.constantkind, 1);
+
+        quads = new QuadTable(quadSize);
+        interp = new Interpreter();
+
+
     }
+
+
+    //region Final Givens
+
+    //Interface to the syntax analyzer, initiates parsing
+    public void parse() {
+
+        //Use source filename as pattern for symbol table and quad table output later
+        String filenameBase = filein.substring(0, filein.length() - 4);
+        System.out.println(filenameBase);
+        int recur = 0;
+        //Prime the pump, get first token
+        token = lex.GetNextToken();
+        //Call PROGRAM
+        recur = Program();
+        //Done with recursion, so add the final STOP quad
+        quads.AddQuad(interp.opcodeFor("STOP"), 0, 0, 0);
+
+        //Print SymbolTable, QuadTable before execute
+        symbolList.PrintSymbolTable(filenameBase + "ST-before.txt");
+        quads.PrintQuadTable(filenameBase + "QUADS.txt");
+        //interpret
+        if (!anyErrors) {
+            interp.InterpretQuads(quads, symbolList, false, filenameBase + "TRACE.txt");
+        } else {
+            System.out.println("Errors, unable to run program.");
+        }
+        symbolList.PrintSymbolTable(filenameBase + "ST-after.txt");
+
+    }
+
+    //endregion
+
 
     //The interface to the syntax analyzer, initiates parsing
 // Uses variable RECUR to get return values throughout the non-terminal methods    

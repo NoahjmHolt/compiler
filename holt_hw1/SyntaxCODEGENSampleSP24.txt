@@ -185,8 +185,7 @@ public class Syntactic {
         trace("UnsignedNumber", true);
         // float or int or ERROR
         // unsigned constant starts with integer or float number
-        if ((token.code == lex.codeFor("ICNS")
-                || (token.code == lex.codeFor("FCNS")))) {
+        if ((token.code == lex.codeFor("ICNS") || (token.code == lex.codeFor("FCNS")))) {
             // return the s.t. index 
             recur = symbolList.LookupSymbol(token.lexeme);
             token = lex.GetNextToken();

@@ -94,7 +94,7 @@ public class Syntactic {
         //Call PROGRAM
         recur = Program();
         //Done with recursion, so add the final STOP quad
-        quads.AddQuad(interp.opcodeFor("STOP"), 0, 0, 0);
+        quads.AddQuad(0, 0, 0, 0);
 
         //Print SymbolTable, QuadTable before execute
         symbolList.PrintSymbolTable(filenameBase + "ST-before.txt");
@@ -111,16 +111,6 @@ public class Syntactic {
 
     //endregion
 
-
-    //The interface to the syntax analyzer, initiates parsing
-// Uses variable RECUR to get return values throughout the non-terminal methods    
-    public void parse() {
-        int recur = 0;
-// prime the pump to get the first token to process
-        token = lex.GetNextToken();
-// call PROGRAM
-        recur = Program();
-    }
 
     //Non-Terminal PROG IDENTIFIER is fully implemented here, leave it as-is.
     private int ProgIdentifier() {
@@ -325,9 +315,16 @@ public class Syntactic {
         }
 
         trace("UnsignedNumber", true);
+
+
         if (token.code == lex.codeFor("INTC") || token.code == lex.codeFor("FLOT")) {
+            // return the s.t. index
+            recur = symbolList.LookupSymbol(token.lexeme);
             token = lex.GetNextToken();
+        } else {
+            error("Integer or Floating Point Number", token.lexeme);
         }
+
         trace("UnsignedNumber", false);
         return recur;
     }
@@ -749,43 +746,44 @@ public class Syntactic {
 
     //handlePrintln
     //
-    private int handlePrintln(){
-
+    private int handlePrintln() {
         int recur = 0;
+        int toprint = 0;
         if (anyErrors) {
             return -1;
         }
 
-        trace("handlePrintln", true);
+        trace("handleWriteln", true);
+        //got here from a WRITELN token, move past it...
         token = lex.GetNextToken();
-
-        // Format: (IDNT)
-        if (token.code == lex.codeFor("LFPR")){
+        //look for ( stringconst, ident, or simpleexp )
+        if (token.code == lex.codeFor("LPAR")) {
+            //move on
             token = lex.GetNextToken();
-            // PRINT SOMETHING HERE (ie  (<simple expression> | <identifier> | <stringconst>)  )
-            if (token.code == lex.codeFor("IDNT")){
-                recur = identifier();
-            } else if (token.code == lex.codeFor("STRG")) {
-                recur = stringconst();
+            if ((token.code == lex.codeFor("SCNS")) || (token.code == lex.codeFor("IDNT"))) {
+                // save index for string literal or identifier
+                toprint = symbolList.LookupSymbol(token.lexeme);
+                //move on
+                token = lex.GetNextToken();
             } else {
-                recur = SimpleExpression();
+                toprint = SimpleExpression();
             }
-
+            quads.AddQuad(6, 0, 0, toprint);
+            //now need right ")"
+            if (token.code == lex.codeFor("RPAR")) {
+                //move on
+                token = lex.GetNextToken();
+            } else {
+                error(lex.reserveFor("RPAR"), token.lexeme);
+            }
         } else {
-            error("Need to strat with left parenthesis", token.lexeme);
-            return -1;
+            error(lex.reserveFor("LPAR"), token.lexeme);
         }
+        // end lpar group
 
-        // finish with )
-        if (token.code == lex.codeFor("RTPR")){
-            token = lex.GetNextToken();
-        } else {
-            error("Need to strat with right parenthesis", token.lexeme);
-            return -1;
-        }
-
-        trace("handlePrintln", false);
+        trace("handlePrintn", false);
         return recur;
+
     }
 
 
@@ -886,6 +884,8 @@ public class Syntactic {
 
         trace("Variable", true);
         if ((token.code == lex.codeFor("IDNT"))) {
+            //return the location of this variable for Quad use
+            recur = symbolList.LookupSymbol(token.lexeme);
             // bookkeeping and move on
             token = lex.GetNextToken();
         }

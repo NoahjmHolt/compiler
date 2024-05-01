@@ -15,6 +15,8 @@ so that all the trace outputs match the intended result
 package ADT;
 
 
+import java.util.Scanner;
+
 public class Interpreter {
 
     int maxSize;
@@ -28,7 +30,7 @@ public class Interpreter {
     // Initializes what is needed
     public Interpreter(){
 
-        maxSize = 35;
+        maxSize = 1000;
 
         operation = new ReserveTable(maxSize);
         initReserve(operation);
@@ -158,7 +160,18 @@ public class Interpreter {
                         break;
 
                     case 7: // READ
-
+                        // Make a scanner to read from CONSOLE
+                        Scanner sc = new Scanner(System.in);
+                        // Put out a prompt to the user
+                        System.out.print('>');
+                        // Read one integer only
+                        int readval = sc.nextInt();
+                        // Op3 has the SymbolTable index we need, update its value
+                        symbtable.UpdateSymbol(3,'I',readval);
+                        // Deallocate the scanner
+                        sc = null;
+                        // Increment Program Counter
+                        //PC++;
                         break;
 
                     case 8: // JMP

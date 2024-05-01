@@ -8,9 +8,9 @@ import ADT.*;
 public class main {
     public static void main(String[] args) {
         String filePath = args[0];
-        System.out.println("Code Generation SP 2024, by <Student Name>");
+        System.out.println("Code Generation SP 2024, by Noah Holt");
         System.out.println("Parsing "+filePath);
-        boolean traceon = false; //true;// false;
+        boolean traceon = true;// false;
         Syntactic parser = new Syntactic(filePath, traceon);
         parser.parse();
         System.out.println("Done.");

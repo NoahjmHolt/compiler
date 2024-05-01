@@ -70,8 +70,8 @@ public class Syntactic {
         //
         // Add these to symbol table to accommodate sign flips
         //
-        Minus1Index = symbolList.AddSymbol("-1", symbolList.constantkind, -1);
-        Plus1Index = symbolList.AddSymbol("1", symbolList.constantkind, 1);
+        Minus1Index = symbolList.AddSymbol("-1", 'c', -1);
+        Plus1Index = symbolList.AddSymbol("1", 'c', 1);
 
         quads = new QuadTable(quadSize);
         interp = new Interpreter();
@@ -523,7 +523,7 @@ public class Syntactic {
                 recur = handleFor();
 
             } else if (token.code == lex.codeFor("WRLN")) { // $WriteLn Println
-                recur = handlePrintln();
+                recur = handleWriteln();
 
             } else if (token.code == lex.codeFor("READ")) { // $ReadLn handleReadLn
                 recur = handleReadln();
@@ -746,7 +746,7 @@ public class Syntactic {
 
     //handlePrintln
     //
-    private int handlePrintln() {
+    private int handleWriteln() {
         int recur = 0;
         int toprint = 0;
         if (anyErrors) {
@@ -757,10 +757,10 @@ public class Syntactic {
         //got here from a WRITELN token, move past it...
         token = lex.GetNextToken();
         //look for ( stringconst, ident, or simpleexp )
-        if (token.code == lex.codeFor("LPAR")) {
+        if (token.code == lex.codeFor("LFPR")) {
             //move on
             token = lex.GetNextToken();
-            if ((token.code == lex.codeFor("SCNS")) || (token.code == lex.codeFor("IDNT"))) {
+            if ((token.code == lex.codeFor("STNG")) || (token.code == lex.codeFor("IDNT"))) {
                 // save index for string literal or identifier
                 toprint = symbolList.LookupSymbol(token.lexeme);
                 //move on
@@ -770,14 +770,14 @@ public class Syntactic {
             }
             quads.AddQuad(6, 0, 0, toprint);
             //now need right ")"
-            if (token.code == lex.codeFor("RPAR")) {
+            if (token.code == lex.codeFor("RTPR")) {
                 //move on
                 token = lex.GetNextToken();
             } else {
-                error(lex.reserveFor("RPAR"), token.lexeme);
+                error(lex.reserveFor("RTPR"), token.lexeme);
             }
         } else {
-            error(lex.reserveFor("LPAR"), token.lexeme);
+            error(lex.reserveFor("LFPR"), token.lexeme);
         }
         // end lpar group
 

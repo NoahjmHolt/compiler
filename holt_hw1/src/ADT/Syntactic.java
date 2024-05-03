@@ -124,6 +124,8 @@ public class Syntactic {
             // Because this is the progIdentifier, it will get a 'P' type to prevent re-use as a var
             symbolList.UpdateSymbol(symbolList.LookupSymbol(token.lexeme), 'P', 0);
             recur = symbolList.LookupSymbol(token.lexeme);
+            //move on
+            token = lex.GetNextToken();
         }
         return recur;
     }

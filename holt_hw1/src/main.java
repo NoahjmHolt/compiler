@@ -10,7 +10,7 @@ public class main {
         String filePath = args[0];
         System.out.println("Code Generation SP 2024, by Noah Holt");
         System.out.println("Parsing "+filePath);
-        boolean traceon = true;// false;
+        boolean traceon = false; //true;//
         Syntactic parser = new Syntactic(filePath, traceon);
         parser.parse();
         System.out.println("Done.");

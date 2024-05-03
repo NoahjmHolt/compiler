@@ -1,0 +1,26 @@
+noah@noahs-MacBook-Pro holt_hw1 % java -jar ./out/artifacts/holt_hw1_jar/holt_hw1.jar CodeGenFULL-SP24.txt
+Code Generation SP 2024, by Noah Holt
+Parsing CodeGenFULL-SP24.txt
+0001 UNIT CodegenFull;
+CodeGenFULL-SP24
+0002 VAR
+0003   n, factorial : INTEGER;
+0004 VAR  count : integer;
+0005
+0006 begin
+0007 WRITELN("Full SPRING 2024 Test File");
+0008
+0009 WRITELN("Calculating Factorial");
+0010 WRITELN("Click in the CONSOLE WINDOW, and enter the value 7 for n:");
+0011 readln(n);  {should be same result as doing n := 7;}
+0012 factorial := 1;
+0013 count := 1;
+0014 WHILE count <= n DO
+ERROR: Expected ) but found DO
+ERROR: Expected end but found DO
+ERROR: Expected . but found DO
+Successfully wrote to the file.
+Successfully wrote to the file.
+Errors, unable to run program.
+Successfully wrote to the file.
+Done.

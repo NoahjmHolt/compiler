@@ -232,23 +232,46 @@ public class Syntactic {
 
         trace("SimpleExpression", true);
 
+        //new vars
+        int left, right, signval, temp, opcode;
+
         // check for sign
-        if (token.code == lex.codeFor("ADD_") || token.code == lex.codeFor("SUBT")) {
+        if (token.code == lex.codeFor("ADD_")) {
+            signval = Plus1Index;
             token = lex.GetNextToken();
+        } else if (token.code == lex.codeFor("SUBT")) {
+            signval = Minus1Index;
+            token = lex.GetNextToken();
+        } else {
+            signval = 0;
         }
 
         // call term at least once
-        recur = Term();
+        left = Term();
+
+        if(signval == -1){
+            quads.AddQuad(2, left, signval, left);
+        }
+
         // then any number of times
         int addsub = Addop();
         while (addsub == 0) {
-            //token = lex.GetNextToken();
-            recur = Term();
+
+            if(signval != -1){
+                opcode = 4;
+            } else {
+                opcode = 3;
+            }
+
+            right = Term();
+            temp = symbolList.AddSymbol("temp", 'c', 0);
+            quads.AddQuad(opcode, left, right, temp);
+            left = temp;
             addsub = Addop();
         }
 
         trace("SimpleExpression", false);
-        return recur;
+        return left;
     }
 
 
@@ -509,15 +532,57 @@ public class Syntactic {
 
         trace("Statement", true);
 
+        int saveTop, branchQuad, patchElse;
+
 
         if (token.code == lex.codeFor("IDNT")) { // <var> assign do (stuff
                 recur = handleAssignment();
 
         } else if (token.code == lex.codeFor("_IF_")) { // $If call handle if
-                recur = handleIf();
+
+            token = lex.GetNextToken();
+            branchQuad = Relexpression();
+
+            if (token.code == lex.codeFor("THEN")) {
+
+                token = lex.GetNextToken();
+                Statement();
+
+                if (token.code == lex.codeFor("ELSE")) {
+
+                    token = lex.GetNextToken();
+                    patchElse = quads.NextQuad();
+
+                    quads.AddQuad(8, 0,0,0);
+                    quads.UpdateJump(branchQuad, quads.NextQuad());
+
+                    Statement();
+                    quads.UpdateJump(patchElse, quads.NextQuad());
+
+                } else {
+                    quads.UpdateJump(branchQuad, quads.NextQuad());
+                }
+
+            } else {
+                error("THEN", token.lexeme);
+            }
 
         } else if (token.code == lex.codeFor("WHIL")) { // $WHILE call handle while
-                recur = handleWhile();
+
+            token = lex.GetNextToken();
+
+            saveTop = quads.NextQuad();
+            branchQuad = Relexpression();
+
+            if (token.code == lex.codeFor("_DO_")){
+                token = lex.GetNextToken();
+                Statement();
+
+                quads.AddQuad(8, 0,0,saveTop);
+                quads.UpdateJump(branchQuad, quads.NextQuad());
+            } else {
+                error("DO", token.lexeme);
+            }
 
         } else if (token.code == lex.codeFor("_FOR")) { // $For handle for
                 recur = handleFor();
@@ -688,6 +753,42 @@ public class Syntactic {
         return recur;
     }
 
+    private int relopToOpcode(int relop){
+
+        int result = -1;
+
+        switch (relop)
+        {
+
+            case 42: // equal
+                result = 12;
+                break;
+
+            case 43: // not equal
+                result = 9;
+                break;
+
+            case 39: // less
+                result = 14;
+                break;
+
+            case 38: // greater
+                result = 13;
+                break;
+
+            case 40: // greater equal
+                result = 11;
+                break;
+
+            case 41: // less equal
+                result = 10;
+                break;
+
+        }
+
+        return result;
+
+    }
 
     //handleWhile
     // <relexpression> DO <statement>
@@ -724,18 +825,19 @@ public class Syntactic {
 
         trace("Relexpression", true);
 
-        recur = SimpleExpression();
+        int left, right, saverelop, result, temp;
 
-        if (recur != -1) {
-            recur = Relop();
-        }
+        left = SimpleExpression();
+        saverelop = Relop();
+        right = SimpleExpression();
+        temp = symbolList.AddSymbol("temp", 'c', 0);
 
-        if (recur != -1) {
-            recur = SimpleExpression();
-        }
+        quads.AddQuad(3, left, right, temp);
+        result = quads.NextQuad();
+        quads.AddQuad(relopToOpcode(saverelop), temp, 0, 0);
 
         trace("Relexpression", false);
-        return recur;
+        return result;
     }
 
 

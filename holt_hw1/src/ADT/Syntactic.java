@@ -123,8 +123,7 @@ public class Syntactic {
         if (token.code == lex.codeFor("IDNT")) {
             // Because this is the progIdentifier, it will get a 'P' type to prevent re-use as a var
             symbolList.UpdateSymbol(symbolList.LookupSymbol(token.lexeme), 'P', 0);
-            //move on
-            token = lex.GetNextToken();
+            recur = symbolList.LookupSymbol(token.lexeme);
         }
         return recur;
     }
@@ -194,11 +193,15 @@ public class Syntactic {
         }
         trace("handleAssignment", true);
         //have ident already in order to get to here, handle as Variable
-        recur = Variable();  //Variable moves ahead, next token ready
+        int left;
+        int right;
+
+        left = Variable();  //Variable moves ahead, next token ready
 
         if (token.code == lex.codeFor("ASGN")) {
             token = lex.GetNextToken();
-            recur = SimpleExpression();
+            right = SimpleExpression();
+            quads.AddQuad(5, right, 0, left);
         } else {
             error(lex.reserveFor("ASGN"), token.lexeme);
         }
@@ -504,41 +507,39 @@ public class Syntactic {
 
         trace("Statement", true);
 
-        //
 
-
-            if (token.code == lex.codeFor("IDNT")) { // <var> assign do (stuff
+        if (token.code == lex.codeFor("IDNT")) { // <var> assign do (stuff
                 recur = handleAssignment();
 
-            } else if (token.code == lex.codeFor("_IF_")) { // $If call handle if
+        } else if (token.code == lex.codeFor("_IF_")) { // $If call handle if
                 recur = handleIf();
 
-            } else if (token.code == lex.codeFor("WHIL")) { // $WHILE call handle while
+        } else if (token.code == lex.codeFor("WHIL")) { // $WHILE call handle while
                 recur = handleWhile();
 
-            } else if (token.code == lex.codeFor("_FOR")) { // $For handle for
+        } else if (token.code == lex.codeFor("_FOR")) { // $For handle for
                 recur = handleFor();
 
-            } else if (token.code == lex.codeFor("WRLN")) { // $WriteLn Println
+        } else if (token.code == lex.codeFor("WRLN")) { // $WriteLn Println
                 recur = handleWriteln();
 
-            } else if (token.code == lex.codeFor("READ")) { // $ReadLn handleReadLn
+        } else if (token.code == lex.codeFor("READ")) { // $ReadLn handleReadLn
                 recur = handleReadln();
 
-            } else if (token.code == lex.codeFor("ENDL")) {
+        } else if (token.code == lex.codeFor("ENDL")) {
                 token = lex.GetNextToken();
                 recur = -1;
 
-            } else if (token.code == lex.codeFor("BEGN")) {
+        } else if (token.code == lex.codeFor("BEGN")) {
                 recur = Blockbody();
 
-            } else if (token.code == lex.codeFor("END_")) {
+        } else if (token.code == lex.codeFor("END_")) {
                 recur = -1;
 
-            }else {
+        }else {
                 error("Statement start", token.lexeme);
                 return  -1;
-            }
+        }
 
         recur = 0;
 
@@ -869,7 +870,7 @@ public class Syntactic {
     //Non-terminal just looks for an IDENTIFIER.  Later, a
     //  type-check can verify compatible math ops, or if casting is required.
     private int Variable(){
-        int recur = 0;
+        int result = 0;
         if (anyErrors) {
             return -1;
         }
@@ -877,7 +878,7 @@ public class Syntactic {
         trace("Variable", true);
         if ((token.code == lex.codeFor("IDNT"))) {
             //return the location of this variable for Quad use
-            recur = symbolList.LookupSymbol(token.lexeme);
+            result = symbolList.LookupSymbol(token.lexeme);
             // bookkeeping and move on
             token = lex.GetNextToken();
         }
@@ -885,7 +886,7 @@ public class Syntactic {
             error("Variable", token.lexeme);
 
         trace("Variable", false);
-        return recur;
+        return result;
 
     }
 
